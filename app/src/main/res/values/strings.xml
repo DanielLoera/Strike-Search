@@ -1,0 +1,23 @@
+<resources>
+    <string-array name="listArray">
+        <item>Search</item>
+        <item>Monster Box</item>
+   </string-array>
+    <string name="app_name">Strike Search</string>
+    <string name="level">MAX</string>
+    <string name="hp">HP</string>
+    <string name="attack">Attack</string>
+    <string name="speed">Speed</string>
+    <string name="lv">LV</string>
+    <string name="greeting">Enter Monster Name or Number</string>
+    <string name="searchButton">Search</string>
+    <string name="descRanImage">Strike Search</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_monster_page">Strike Search</string>
+    <string name="title_activity_results">Search Results</string>
+    <string name="title_activity_home">Strike Search</string>
+    <string name="title_activity_favorite">Strike Search</string>
+    <string name="open_drawer">Open Drawer</string>
+    <string name="close_drawer">Close Drawer</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

@@ -1,0 +1,43 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.loera.monstersearch.MonsterPage">
+
+
+    <item
+        android:id="@+id/actionSearch"
+        android:icon="@drawable/ic_search_white_36dp"
+        app:showAsAction="ifRoom"
+        app:actionViewClass="android.widget.SearchView"
+        android:menuCategory="container"
+        android:orderInCategory="1"
+        android:title="Search"
+        />
+
+
+    <item
+
+        android:id="@+id/materialsButton"
+        android:icon="@drawable/mat_button"
+        app:showAsAction="ifRoom"
+        android:menuCategory="container"
+        android:orderInCategory="2"
+        android:title="Materials"
+
+
+
+   />
+
+    <item
+        android:id="@+id/favoriteButton"
+        android:title="Favorite"
+        android:icon="@drawable/heart_outline"
+        app:showAsAction="ifRoom"
+
+
+        android:menuCategory="container"
+        android:orderInCategory="3"
+
+ />
+
+</menu>

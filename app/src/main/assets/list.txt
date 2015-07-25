@@ -1,0 +1,999 @@
+001 Zinge 
+002 Fzzzinge 
+003 Charcle 
+004 Hotchow
+005 Watta 
+006 Wattalog 
+007 Coldchow 
+008 Boobalm 
+009 Sweedle 
+010 Sweebloom 
+011 Phyll 
+012 Brocc 
+013 Boobuff 
+014 Cupid 
+015 Dazzil 
+016 Sparcle 
+017 Chowchow 
+018 Chowdacontrol 
+019 Glumber 
+020 Badbuff 
+021 Koblin 
+022 Koblinski 
+023 Blinskorch 
+024 Frawst 
+025 Sir Shivers 
+026 Baron Von Shiv 
+027 Shrump 
+028 Sharrumph 
+029 Cap'n Shrump 
+030 Lex 
+031 Lexcel 
+032 Ordo 
+033 Psoot 
+034 Pskull 
+035 Psoldier 
+036 Wuf 
+037 Wuffentuf 
+038 Gleek 
+039 Spleeky 
+040 Wiles 
+041 Wilestyle 
+042 Rabsack 
+043 Rabba The Bun 
+044 Purrlock 
+045 Purrsorcerer 
+046  
+047  
+048  
+049  
+050  
+051  
+052  
+053  
+054  
+055  
+056 Kaboo 
+057 Kablarg 
+058 Brr 
+059 Shigrr 
+060 Poink 
+061 Gabroink 
+062 Winkle 
+063 Wintense 
+064 Squing 
+065 Squllqer 
+066 Kayoh 
+067 Teekayoh 
+068 Champion Teekayoh 
+069 Sirenetta 
+070 Merprincess Sirenetta 
+071 Sea Princess Sirenetta 
+072 Cheetahman 
+073 Feral Cheetahman 
+074 Winged Cheetahman 
+075 Dollia 
+076 Magical Princess Dollia 
+077 Magical Guardian Dollia 
+078 Kageki 
+079 Shinobi Kageki 
+080 Attuned Kageki 
+081 Rodin 
+082 Netherguard Rodin 
+083 Mr. Ice 
+084 Age Of Ice 
+085 Astran 
+086 Dynamo Astran 
+087 Smasha 
+088 Mighty Smasha 
+089 Death 
+090 Sudden Death 
+091 Ventinel 
+092 Ventinel Ii 
+093 Hydrill 
+094 Hydrill Ii 
+095 Assista Prototype 
+096 Battle Ready Assista 
+097 Galaxon 
+098 Galaxon X 
+099 Neo Galaxon 
+100 Pinnacle Galaxon 
+101 Rossa 
+102 Incinerating 
+103 Botamus 
+104 Bullet Train Botamus 
+105 Wighthawk 
+106 Supersonic Wighthawk 
+107 Trino 
+108 Tachyon Trino 
+109 Diablo 
+110 Speed Freak Diablo 
+111 Red Mage Marlick 
+112 Red Sorcerer Marlick 
+113 Blue Mage Saris 
+114 Blue Warlock Saris 
+115 Green Mage Arnald 
+116 Green Wizard Arnald 
+117 White Mage Christel 
+118 White Alchemist Christel 
+119 Black Mage Raith 
+120 Black Diviner Raith 
+121 Orangaflang 
+122 Strongarm Orangaflang 
+123 Hiccoon 
+124 Meister Hiccoon 
+125 Crystortoise 
+126 Dire Crystortoise 
+127 Ceros 
+128 Bigole Ceros 
+129 Krwel 
+130 Stonewall Krwel 
+131 Red Smydra 
+132 Red Drake 
+133 Jabbanero 
+134 Wrathful Jabbanero 
+135 Blue Smydra 
+136 Blue Drake 
+137 Geladine 
+138 Arctic Geladine 
+139 Green Smydra 
+140 Green Drake 
+141 Viridion 
+142 Monarch Viridion 
+143 White Smydra 
+144 White Drake 
+145 Aeros 
+146 Divine Aeros 
+147 Black Smydra 
+148 Black Drake 
+149 Chthonius 
+150 Deathlord Chthonius 
+151 Hina 
+152 Hina The Ardent 
+153 Matrima 
+154 Matrima The Excessive 
+155 Chance 
+156 Chance The Pathfinder 
+157 Aeterna 
+158 Aeterna The Endearing 
+159 Allura 
+160 Allura The Invasive 
+161 Phoenix 
+162 Phoenix The Fireborn 
+163 Cetus 
+164 Cetus The Gargantuan 
+165 Al-Mi'raj 
+166 Al-Mi'raj The Moonsaint 
+167 Unicorn 
+168 Unicorn The Foudroyant 
+169 Cerberus 
+170 Cerberus The Infernal 
+171 Asura 
+172 Asura The Destroyer 
+173 Djinn 
+174 Djinn The Trickster 
+175 Dr. Shrewd 
+176 Mad Dr. Shrewd 
+177 Titan 
+178 Titan Drakesender 
+179 Nosferatsu 
+180 Unquenched Nosferatu 
+181 Zhu Que 
+182 Vermilion Zhu Que 
+183 Qing Long 
+184 Azure Qing Long 
+185 Bai Hu 
+186 Jade Bai Hu 
+187 Kirin 
+188 Sainted Kirin 
+189 Assassin Xw 
+190 Shadowy Xuan Wu 
+191 Agnamut 
+192 Conflagrant Agnamut 
+193 Susano 
+194 Great Susano'o 
+195 Hunter King 
+196 Monster Slayer 
+197 Striker 
+198 Super Striker 
+199 Mundus 
+200 Emulous Mundus 
+201 Zuma 
+202 Final Form Zuma 
+203 Origa 
+204 Winterscape Origa 
+205 Sylvasaur 
+206 Sylvasaurus Rex 
+207  
+208  
+209 Prime 
+210 Zero 
+211  
+212  
+213  
+214  
+215  
+216 Expie 
+217 Nexpie 
+218 Deluxpie 
+219 Pennyback 
+220 Munnyback 
+221 Plennyback 
+222 Mormite 
+223 Mormite S 
+224 Morquik 
+225 Morquik S 
+226 Morlyfe 
+227 Morlyfe S 
+228 Agnes Belter 
+229 The Red Monstriker 
+230 Tirtha Chorde 
+231 The Blue Monstriker 
+232 Pritha Starr 
+233 The Green Monstriker 
+234 Jotie Lowton 
+235 The Yellow Monstriker 
+236 Krish Piper 
+237 Black Monstriker 
+238 Ifrit 
+239 Firelord Ifrit 
+240 Scylla 
+241 Seaserpent Scylla 
+242 Gaia 
+243 Earhlord Gaia 
+244 Dominion 
+245 Skylord Dominion 
+246 Bahamut 
+247 Ethereanlord Behamut 
+248 Ducati 
+249 Dragonrider Ducati 
+250 Yadea 
+251 Sapphire Yadea 
+252 Enfield 
+253 Regal Enfield 
+254 Triumph 
+255 Galloping Triumph 
+256 Harley 
+257 Harley X 
+258 Grimrose Harley 
+259 Grimrose Harley X 
+260 Apollo 
+261 Mechanized Apollo 
+262 Neptune 
+263 Mechanized Neptune 
+264 Jupiter 
+265 Mechanized Jupier 
+266 Venus 
+267 Mechanized Venus 
+268 Eclipse 
+269 Mechanized Eclipse 
+270 Mars 
+271 Mechanized Mars 
+272 Mercury 
+273 Mechanized Mercury 
+274 Saturn 
+275 Mechanized Saturn 
+276 Uranus 
+277 Mechanized Uranus 
+278 Pluto 
+279 Mechanized Pluto 
+280 Agnamut X 
+281 Conflagrant Agnamut X 
+282 Galahad 
+283 Galahad The Pure 
+284 Lancelot 
+285 Lancelot Of The Lake 
+286 Merlin 
+287 Merlin The Destined 
+288 Arthur 
+289 Queen Arthur 
+290 Tristan 
+291 Tristan The Thirsty 
+292 Mordred 
+293 Mordred The Profound 
+294 Lot 
+295 Lot, King Of Orkney 
+296 Cormoran 
+297 Cormoran The Giant 
+298 Emerald Dragon 
+299 Shining Emerald Dragon 
+300 Morgan 
+301 Morgan La'fey 
+302 Deluxpie Claus 
+303 Sanada Yukimura 
+304 Crimson Sanada 
+305 Masamune 
+306 Masamune The One-Eyed 
+307 Kuroda Kanbei 
+308 Kanbei The Technician 
+309 Ishida Mitsunari 
+310 Mitsunari The Wise 
+311 Oda Nobunaga 
+312 Demon Queen Nobunaga 
+313 Shuku 
+314 Shu-Ten Doji 
+315 Nurarihyon 
+316 General Nurarihyon 
+317 Kodama 
+318 Yamabiko 
+319 Nue 
+320 Thunderpeal Nue 
+321 Inari 
+322 Vulpine Inari 
+323  
+324 Karin 
+325 Scorcher Karin 
+326 Nanami 
+327 Floodgate Nanami 
+328 Kazane 
+329 Bountiful Kazane 
+330 Hikari 
+331 Resplendent Hikari 
+332 Saya 
+333 Umbral Saya 
+334 Gunblaize 
+335 Solwing 
+336 Deiugian 
+337 Arch Deiguian 
+338 Florrior 
+339  
+340 Zic Zephyr 
+341 Zic Skywinder 
+342 Murdigris 
+343 Violet Liege 
+344 Matilda 
+345 Valentine 
+346 Vanguard 
+347 Warspite 
+348 Wildcat 
+349 Mustang 
+350 Albacore 
+351 Swordfish 
+352 Colombia 
+353 Independence 
+354 Weser 
+355 Blitzkrieg 
+356 Panzer 
+357 Tiger I 
+358 Schwalbe 
+359 Stuka 
+360 I-400 
+361 Kii 
+362 Type Vii 
+363 Type Xxi 
+364 Apollo X 
+365 Mechanized Apollo X 
+366  
+367  
+368 Oda Nobunaga X 
+369 Demon Queen Nobunaga X 
+370 Zhu Que S 
+371 Vermillion Zhu Que S 
+372 Shuku S 
+373 Shuten-Doji S 
+374 Lancelot X 
+375 Lancelot Of The Lake X 
+376 Bai Hu S 
+377 Jade Bai Hu S 
+378 Kodama S 
+379 Yamabiko S 
+380 Amaterasu 
+381 Blazing Amaterasu 
+382 Amaterasu Omikami 
+383 Odin 
+384 Odin All-Father 
+385 Odin Of The Blue Flame 
+386 Valkyrie 
+387 Valkyrie Warmaiden 
+388 Valkyrie Of The Jade Flame 
+389 Zeus 
+390 Zeus Olympios 
+391 Zeus Of The Shining Flame 
+392 Dark Usurper Zeus 
+393 Shiva 
+394 Shadow Shiva 
+395 Shiva The Destroyer 
+396 Fire Wyrm 
+397 Inferno Wyrm 
+398 Tiamat Deathbringer 
+399 Aqua Wyrm 
+400  
+401 Dyrad 
+402 Dryad Regnant 
+403 Thunderbird 
+404 Lord Thundergriff 
+405 Dark Wyrm 
+406 Manta Wyrm 
+407 Nidhogg Blackbringer 
+408 Maxpie 
+409 Lin Zi 
+410 Master Lin Zi 
+411 Crocodire 
+412 Heavy Crocodire 
+413 Dear Lotta 
+414 Troubadour Lotta 
+415 Royce 
+416 Royce The Hero 
+417 Aiven 
+418 Aiven The Witch 
+419 Ursacles 
+420 Bearfiend Urascles 
+421 Pachydoom 
+422 Tuskfiend Pachydoom 
+423 Fellmane 
+424 Lionfiend Fellmane 
+425 Pavotrus 
+426 Featherfiend Pavotrus 
+427 Visceron 
+428 Wolffiend Visceron 
+429  
+430 Lolipop 
+431  
+432 Maverick Lin Zi 
+433 Royce The Most Valiant 
+434 High Axefiend Ursacles 
+435 Kirin As 
+436  
+437 Smopol 
+438 Smopol The Giant 
+439 Margarite 
+440 Margarite The Faerie 
+441 Goddess Margarite 
+442 Tini 
+443 Tini The Sprite King 
+444 Dark Emperor Tini 
+445 Quiri 
+446 Quiri The Chimera 
+447 Shadowgaff 
+448 Shadowgaff Hydra 
+449 Gaff The Eightfold Shadow 
+450 Mormite X 
+451 Morquik X 
+452 Morlyfe X 
+453 Al-Mi'raj The Moonsoldier 
+454 Stormbringer Susano'o 
+455 Mundus Ultimus 
+456 Apex Emerald Dragon 
+457  
+458  
+459 Red Hood Nonno 
+460 Nonno The Wolf Trainer 
+461 Nonno The Public Menace 
+462 Loreley The Mermaid 
+463 Merprincess Loreley 
+464 Spearmint Boots 
+465 Spearmint The Catvalier 
+466 Etherean 
+467 Beauteous Etherean 
+468 Ablazing Etherean 
+469 Hamelin 
+470 Piper Mage Of Hamelin 
+471 Archmage Hamelin 
+472 Momotaro 
+473 Prince Momotaro 
+474 Demon Slayer Momotaro 
+475 Urashima 
+476 Time Wanderer Urashima 
+477 Issun 
+478 Issun The Sizable 
+479 Tanuki 
+480 Tea Kettle Tanuki 
+481 Kaguya 
+482 Princess Kaguya 
+483  
+484 Sakamoto Ryoma 
+485 Ryoma The Captain 
+486 Ryoma The Visionary 
+487 Katsu Kaishu 
+488 Commissioner Katsu 
+489 Oryo 
+490 Oryo, Bride Of Ryoma 
+491 Oryo The Restorer 
+492 John Manjiro 
+493 Manjiro The Diplomat 
+494 Saigo Takamori 
+495 Saigo The Last Samurai 
+496 Saigo The Lasting Teacher 
+497 Saito Hajime 
+498 Saito The Survivor 
+499 Okita Soji 
+500 Captain Okita Soji 
+501 Shinsengumi Captain Okita 
+502 Tokugawa Yoshinobu 
+503 Yoshinobu The Last Shogun 
+504 Yoshinobu The Decisive 
+505 Kondo Isami 
+506 Shinsengumi Commander Isami 
+507 Hijikata Toshizo 
+508 Hijikata The Comfortless 
+509  
+510 Alice 
+511 Alice In Wonderland 
+512 Malya Snappe 
+513 The Rose Monstriker 
+514 Blossom Warrior Pink 
+515 Nadisa Courant 
+516 The Marine Monstriker 
+517 Rad Swagger 
+518 The Clover Monstriker 
+519 Hammer Warrior Clover 
+520 Citran Golde 
+521  
+522  
+523  
+524  
+525 Crabotron 
+526 Ultra Crabotron 
+527 Queen Butterflight 
+528 Empress Butterflight 
+529 Thornmistress Butterflight 
+530 Freekfrogg 
+531 Mecha Freekfrogg 
+532 Dr. Sorge 
+533 Doomsday Megasorge 
+534 Deathscoil 
+535 Chancellor Deathscoil 
+536 Merciless Deathscoil 
+537 Striker Jr. 
+538 Super Striker Jr. 
+539  
+540  
+541  
+542  
+543 Red Expie 
+544 Red Nexpie 
+545 Red Deluxpie 
+546 Red Maxpie 
+547 Blue Expie 
+548 Blue Nexpie 
+549 Blue Deluxpie 
+550 Blue Maxpie 
+551 Green Expie 
+552 Green Nexpie 
+553 Green Deluxpie 
+554 Green Maxpie 
+555 Bright Expie 
+556 Bright Nexpie 
+557 Bright Deluxpie 
+558 Bright Maxpie 
+559 Napoleon 
+560 Napoleon The Valiant 
+561 Empress Napoleon 
+562 Izanami 
+563 Izanami The Inviter 
+564 Freyja 
+565 Freyja Moongoddess 
+566 Verdandi 
+567 Verdandi Fortunemaker 
+568 Verdandi The Creator 
+569 Yggdrasil 
+570 Yggdrasil Worldtree 
+571 Yggdrasil The All-Tree 
+572 Baldr 
+573 Baldr, Goddess Of Light 
+574 Loki 
+575 Loki, God Of Mischief 
+576 Trickmaster Loki 
+577 Surtr 
+578 Surtr The Searing 
+579 All-Consuming Surtr 
+580 Jormungandr 
+581 Jormungandr Worldserpent 
+582 Hraesvelgr 
+583 Hraesvelgr The Skyshaker 
+584 Fenrir 
+585 Fenrir The Monsterwolf 
+586 Godslayer Fenrir 
+587 Hel 
+588 Hel The Netherqueen 
+589 Osiris 
+590 Osiris Of The Nile 
+591 Osiris Of The Underworld 
+592 Anubis 
+593 Jackal God Anubis 
+594 Anubis The Guardian 
+595 Isis 
+596 Isis, Life And Death 
+597 Ra 
+598 Sun Goddess Ra 
+599 Ra, Lord Of Light 
+600 Horus 
+601 Sky Goddess Horus 
+602 Set 
+603 War God Set 
+604 Amun 
+605 Amun, High Guardian 
+606 Serket 
+607  
+608  
+609  
+610  
+611 Bastet 
+612  
+613  
+614  
+615  
+616  
+617  
+618  
+619  
+620  
+621  
+622  
+623 Belphegor 
+624  
+625  
+626 Beelzebub? 
+627  
+628  
+629 Satan? 
+630  
+631 Ruler Of Hell, Satan? 
+632 Astaroth? 
+633 Underworld Queen Astorath? 
+634 Devil Of Hell Astorath? 
+635 Lilith? 
+636 Little Devil Lilith? 
+637 Witch Of Wisdom Lilith? 
+638 Belial? 
+639 Belial The Terror? 
+640 Mephisto? 
+641 Master Of Deception, Mephisto? 
+642 Samael? 
+643 Destroyer? 
+644 Full Metal Destroyer? 
+645  
+646 Gaigan? 
+647  
+648 Godzilla? 
+649 Godzilla, King Of The Monsters? 
+650 Radon? 
+651 Flaming Radon? 
+652 Mecha Godzilla? 
+653  
+654 Mothra? 
+655 Armored Mothra? 
+656 King Kidora? 
+657  
+658 Space Godzilla? 
+659  
+660 Hanzo? 
+661 Shinobu Hanzo? 
+662  
+663  
+664  
+665  
+666  
+667  
+668  
+669  
+670 Sarutobi Sasuke 
+671  
+672  
+673 Inugami? 
+674  
+675 Tsunade? 
+676  
+677 Jiraiya? 
+678  
+679  
+680 Orochimaru 
+681  
+682  
+683 Izuna? 
+684  
+685  
+686 Kushinada? 
+687  
+688  
+689 Slash? 
+690  
+691  
+692  
+693  
+694  
+695 Kali 
+696  
+697  
+698 Parvati 
+699 Mountain Goddess Parvati 
+700 Parvati The Invincible 
+701 Hanuman 
+702 Hanuman The Swift 
+703 Chandra 
+704 Moon Divinity Chandra 
+705 Agni 
+706 Fire Divinity Agni 
+707 Garuda 
+708 Bird Divinity Garuda 
+709 Kamadeva 
+710 Heart Stirrer Kamadeva 
+711 Vishnu 
+712 Vishnu The Preserver 
+713 Supreme Being Vishnu 
+714 Krishna 
+715 Cosmic Conqueror Krishna 
+716 Krishna The Originator 
+717 King Mormite 
+718  
+719  
+720  
+721 Agnamut X 
+722 Aphrodite 
+723 Love Goddess Aphrodite 
+724 Athena 
+725 War Goddess Athena 
+726 Pallas Athena 
+727 Heracles 
+728 Hero God Heracles 
+729  
+730 Hermes 
+731 Messenger Goddess Hermes 
+732 Hades 
+733 Underworld God Hades 
+734 Hades, Lord Of The Dead 
+735 Hydra 
+736 Lernean Hydra 
+737 Blazing Beast Hydra 
+738 Frozyth 
+739 Ice Dragon Frozyth 
+740 Nephrilos 
+741 Ancient Sage Nephrilos 
+742 Typhoon 
+743 Monster King Typhon 
+744 Typhon, Son Of Gaia 
+745 Shadowdrake 
+746 Novalunar Shadowdrake 
+747  
+748 Inari X? 
+749 Vulpine Unari X 
+750 Bahamut X? 
+751 Ethereanlord Behamut X? 
+752 Nurarihyon? 
+753 Nurarihyon X? 
+754 Great Eclipse? 
+755  
+756  
+757 Yamato Takeru? 
+758  
+759  
+760 Beethoven? 
+761  
+762  
+763  
+764  
+765 Bach? 
+766  
+767  
+768 Mozart? 
+769  
+770  
+771 Chopin? 
+772  
+773  
+774  
+775  
+776  
+777  
+778  
+779  
+780  
+781  
+782 Da Vinci? 
+783  
+784  
+785  
+786  
+787  
+788  
+789  
+790  
+791  
+792  
+793  
+794  
+795  
+796  
+797  
+798  
+799  
+800  
+801  
+802  
+803  
+804  
+805 Tengu? 
+806  
+807  
+808 Zashiki Warashi? 
+809  
+810  
+811  
+812  
+813  
+814  
+815  
+816  
+817  
+818  
+819  
+820  
+821  
+822  
+823  
+824  
+825 Genghis Khan 
+826  
+827  
+828  
+829  
+830  
+831 King Bibi? 
+832  
+833  
+834  
+835  
+836  
+837  
+838  
+839 Aladdin? 
+840  
+841  
+842 Pinocchio? 
+843  
+844  
+845  
+846  
+847 Gluttony? 
+848  
+849  
+850  
+851  
+852  
+853  
+854  
+855  
+856 Izanagi 
+857  
+858  
+859  
+860  
+861  
+862  
+863  
+864  
+865  
+866  
+867  
+868  
+869  
+870  
+871 Cleopatra 
+872  
+873  
+874  
+875  
+876 Dracula 
+877  
+878  
+879 Fang? 
+880  
+881 Jack 
+882 Jack-O-Lantern 
+883 Pumpkin Jack 
+884 Mummy 
+885  
+886 Jump Kid 
+887 Grand Admiral Jump Kid 
+888 Pirate King Jump Kid 
+889 J Smydra 
+890 Micheal 
+891  
+892  
+893 Raphael 
+894  
+895  
+896  
+897  
+898  
+899  
+900  
+901  
+902  
+903  
+904  
+905  
+906  
+907  
+908  
+909  
+910  
+911  
+912  
+913  
+914  
+915  
+916  
+917  
+918  
+919  
+920  
+921  
+922  
+923  
+924  
+925  
+926  
+927  
+928  
+929  
+930  
+931  
+932 Goblin 
+933  
+934  
+935  
+936 Medusa 
+937  
+938  
+939  
+940  
+941  
+942  
+943  
+944  
+945  
+946  
+947  
+948  
+949  
+950  
+951  
+952  
+953  
+954  
+955  
+956  
+957  
+958  
+959  
+960  
+961  
+962  
+963  
+964  
+965  
+966  
+967  
+968  
+969 Jean D'arc 
+970  
+971  
+972 Tsukiyomi 
+973  
+974 Gilgamesh 
+975  
+976  
+977  
+978  
+979  
+980  
+981  
+982  
+983  
+984  
+985  
+986  
+987  
+988  
+989  
+990  
+991  
+992  
+993  
+994  
+995  
+996  
+997  
+998  
+999

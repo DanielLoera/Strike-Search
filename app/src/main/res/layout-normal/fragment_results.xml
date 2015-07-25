@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:fillViewport="false"
+    android:id="@+id/scrollViewResults"
+
+  >
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/monsterList"
+    android:orientation="vertical"
+    >
+
+
+
+    <ProgressBar
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBarResults"
+        android:layout_gravity="right"
+        android:indeterminate="true"
+        android:visibility="invisible"
+        />
+</LinearLayout>
+</ScrollView>
+
+

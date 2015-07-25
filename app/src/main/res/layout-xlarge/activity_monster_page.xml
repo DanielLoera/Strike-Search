@@ -1,0 +1,443 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="#242424"
+    tools:context="com.loera.monstersearch.MonsterPage"
+
+    android:clipToPadding="true">
+
+
+    <ProgressBar
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="95dp"
+        android:layout_height="95dp"
+        android:id="@+id/monsterLoading"
+        android:layout_alignParentRight="true"
+        android:indeterminate="true"
+        android:visibility="invisible"
+
+        />
+
+
+
+    <TextView
+        android:id="@+id/title"
+     android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:textSize="18sp"
+     android:textColor="#ffffffff"
+     android:background="@drawable/darkgray_card"
+
+        android:padding="8dp"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/monClass"
+        android:layout_below="@+id/title"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:background="@drawable/grey_card"
+        android:textColor="#ffffffff"
+        android:layout_marginTop="3dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:padding="4dp"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin" />
+
+
+    <com.loera.monstersearch.MonsterImageView
+        android:id="@+id/imageSwipe"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:layout_width="fill_parent"
+        android:layout_height="560dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="60dp"
+        android:layout_centerHorizontal="true"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="@string/lv"
+        android:id="@+id/lv"
+        android:paddingTop="600dp"
+        android:layout_alignParentLeft="true"
+        android:shadowDx="2"
+        android:shadowDy="2"
+        android:shadowRadius="2"
+        android:shadowColor="#ff707070"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:textColor="#ffffffff" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="@string/level"
+        android:id="@+id/level"
+        android:layout_toRightOf="@+id/lv"
+        android:layout_alignBaseline="@+id/lv"
+        android:paddingLeft="5dp"
+        android:shadowDx="2"
+        android:shadowDy="2"
+        android:shadowRadius="2"
+        android:shadowColor="#ff707070"
+        android:textColor="#ffffffff" />
+
+    <TextView
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="@string/hp"
+        android:id="@+id/hp"
+        android:layout_below="@+id/lv"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:gravity="center"
+        android:shadowDx="2"
+        android:shadowDy="2"
+        android:shadowRadius="2"
+        android:shadowColor="#ff707070"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:textColor="#ffffffff" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="@string/attack"
+        android:id="@+id/attack"
+        android:layout_below="@+id/hp"
+        android:paddingTop="3dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:shadowDx="2"
+        android:shadowDy="2"
+        android:shadowRadius="2"
+        android:shadowColor="#ff707070"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:textColor="#ffffffff" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+
+        android:text="@string/speed"
+        android:id="@+id/speed"
+        android:layout_below="@+id/attack"
+        android:paddingTop="3dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:shadowDx="2"
+        android:shadowDy="2"
+        android:shadowRadius="2"
+        android:shadowColor="#ff707070"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:textColor="#ffffffff" />
+
+    <ProgressBar
+        style="?android:attr/progressBarStyleHorizontal"
+        android:id="@+id/progressBarHP"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@+id/hp"
+
+        android:layout_below="@+id/lv"
+        android:layout_width="180dp"
+        android:layout_height="10dp"
+        android:progressDrawable="@drawable/green_progress"
+        android:layout_marginTop="8dp"
+        android:indeterminate="false" />
+
+
+    <ProgressBar
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_marginLeft="5dp"
+        android:id="@+id/progressBarAttack"
+        android:layout_toRightOf="@+id/attack"
+        android:layout_below="@+id/progressBarHP"
+        android:paddingTop="4dp"
+        android:layout_width="180dp"
+        android:layout_marginTop="7dp"
+        android:layout_height="14dp"
+        android:progressDrawable="@drawable/red_progress" />
+
+
+    <ProgressBar
+        style="?android:attr/progressBarStyleHorizontal"
+       android:layout_marginLeft="7dp"
+
+        android:paddingTop="3dp"
+        android:id="@+id/progressBarSpeed"
+        android:layout_toRightOf="@+id/speed"
+        android:layout_below="@+id/progressBarAttack"
+        android:layout_width="180dp"
+        android:layout_height="13dp"
+        android:layout_marginTop="7dp"
+        android:progressDrawable="@drawable/blue_progress"
+        android:indeterminate="false" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:id="@+id/healthNum"
+
+        android:layout_below="@+id/imageSwipe"
+        android:layout_toRightOf="@+id/progressBarHP"
+        android:paddingTop="3dp"
+        android:layout_marginTop="1dp"
+        android:paddingLeft="7dp"
+
+        android:shadowDx="2"
+        android:shadowDy="2"
+        android:shadowRadius="2"
+        android:shadowColor="#ff707070"
+        android:textColor="#ffffffff" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:id="@+id/attackNum"
+        android:layout_below="@+id/healthNum"
+        android:layout_toRightOf="@+id/progressBarAttack"
+        android:paddingLeft="7dp"
+        android:paddingTop="4dp"
+
+        android:shadowDx="2"
+        android:shadowDy="2"
+        android:shadowRadius="2"
+        android:shadowColor="#ff707070"
+        android:textColor="#ffffffff" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:id="@+id/speedNum"
+        android:layout_below="@+id/attackNum"
+        android:layout_toRightOf="@+id/progressBarSpeed"
+        android:paddingLeft="7dp"
+        android:paddingTop="2dp"
+
+        android:shadowDx="2"
+        android:shadowDy="2"
+        android:shadowRadius="2"
+        android:shadowColor="#ff707070"
+        android:textColor="#ffffffff" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:id="@+id/plusHealth"
+        android:layout_below="@+id/imageSwipe"
+        android:layout_marginTop="1dp"
+        android:layout_toRightOf="@+id/healthNum"
+        android:paddingLeft="7dp"
+
+        android:paddingTop="3dp"
+        android:shadowDx="1"
+        android:shadowDy="1"
+        android:shadowRadius="2"
+        android:shadowColor="#ff707070"
+        android:textColor="#ffffed52"
+        />
+
+    <TextView
+        android:shadowDx="1"
+        android:shadowDy="1"
+        android:shadowRadius="2"
+        android:shadowColor="#ff707070"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:id="@+id/plusAttack"
+        android:layout_below="@+id/plusHealth"
+        android:layout_toRightOf="@+id/attackNum"
+        android:paddingLeft="7dp"
+        android:paddingTop="5dp"
+
+        android:textColor="#ffffed52"
+      />
+
+    <TextView
+        android:shadowDx="1"
+        android:shadowDy="1"
+        android:shadowRadius="2"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:id="@+id/plusSpeed"
+        android:layout_below="@+id/plusAttack"
+        android:layout_toRightOf="@+id/speedNum"
+        android:paddingLeft="7dp"
+        android:paddingTop="2dp"
+        android:textColor="#ffffed52"
+        android:shadowColor="#ff707070" />
+    <ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_height="fill_parent"
+        android:layout_width="fill_parent"
+        android:fitsSystemWindows="true"
+        android:id="@+id/textScrollView"
+        android:scrollbars="none"
+        android:layout_marginTop="700dp"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin">
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+
+            >
+
+    <TextView
+        android:shadowDx="2"
+        android:shadowDy="2"
+        android:shadowRadius="2"
+        android:shadowColor="#ff000000"
+        android:layout_width="fill_parent"
+        android:layout_height="70dp"
+        android:id="@+id/abilityBlock"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="1dp"
+        android:paddingLeft="73dp"
+        android:paddingRight="8dp"
+        android:background="@drawable/grey_card"
+        android:textColor="#ffffffff"
+        android:textSize="@dimen/textSizeNormal"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp" />
+
+    <TextView
+        android:shadowDx="2"
+        android:shadowDy="2"
+        android:shadowRadius="2"
+        android:shadowColor="#ff000000"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:id="@+id/strikeShotBlock"
+        android:layout_below="@+id/abilityBlock"
+        android:layout_alignParentLeft="true"
+
+        android:background="@drawable/grey_card"
+        android:textColor="#ffffffff"
+        android:layout_alignParentEnd="false"
+        android:textSize="@dimen/textSizeNormal"
+        android:padding="8dp" />
+
+    <TextView
+        android:shadowDx="2"
+        android:shadowDy="2"
+        android:shadowRadius="2"
+        android:shadowColor="#ff000000"
+        android:layout_width="fill_parent"
+        android:layout_marginTop="5dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/bcBlock"
+        android:layout_below="@id/strikeShotBlock"
+        android:layout_alignParentLeft="true"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:background="@drawable/grey_card"
+        android:textColor="#ffffffff"
+        android:layout_alignParentEnd="false"
+        android:textSize="@dimen/textSizeNormal"
+        android:padding="8dp" />
+
+    <TextView
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:id="@+id/type"
+
+        android:layout_marginTop="3dp"
+        android:layout_marginRight="3dp"
+
+        android:layout_alignTop="@+id/abilityBlock"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/darkgray_card"
+        android:textColor="#ffffffff"
+        android:textSize="@dimen/textSizeNormal"
+        android:paddingLeft="2dp"
+        android:paddingRight="2dp"
+
+        android:paddingBottom="3dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:id="@+id/cooldown"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/strikeShotBlock"
+        android:background="@drawable/darkgray_card"
+        android:textColor="#ffffffff"
+        android:textSize="@dimen/textSizeNormal"
+        android:layout_marginTop="3dp"
+        android:layout_marginRight="3dp"
+        android:paddingLeft="2dp"
+        android:paddingRight="2dp"
+        />
+
+    <TextView
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:id="@+id/bcPower"
+        android:layout_alignTop="@+id/bcBlock"
+        android:layout_alignRight="@+id/cooldown"
+        android:layout_alignEnd="@+id/cooldown"
+        android:background="@drawable/darkgray_card"
+        android:textColor="#ffffffff"
+        android:textSize="@dimen/textSizeNormal"
+        android:layout_marginTop="3dp"
+        android:layout_marginRight="3dp"
+        android:paddingLeft="2dp"
+        android:paddingRight="2dp"
+        />
+
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:id="@+id/thumbImage"
+                android:layout_alignBottom="@+id/abilityBlock"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="8dp"
+                android:layout_alignParentStart="true"
+                android:layout_marginBottom="5dp" />
+
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+</RelativeLayout>
+
+
