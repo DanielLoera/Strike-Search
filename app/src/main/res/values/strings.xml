@@ -2,7 +2,34 @@
     <string-array name="listArray">
         <item>Search</item>
         <item>Monster Box</item>
+        <item>Settings</item>
    </string-array>
+
+    <string-array name="pref_imageEntries">
+
+        <item>Show random Monster</item>
+        <item>Choose from Monster Box</item>
+
+    </string-array>
+    <string-array name="pref_imageValues">
+
+        <item>random</item>
+        <item>box</item>
+
+    </string-array>
+
+    <string-array name="pref_imageOnTapValues">
+
+        <item>random</item>
+        <item>nothing</item>
+
+    </string-array>
+    <string-array name="pref_imageOnTapEntries">
+
+        <item>Show random Monster</item>
+        <item>Do Nothing</item>
+
+    </string-array>
     <string name="app_name">Strike Search</string>
     <string name="level">MAX</string>
     <string name="hp">HP</string>
@@ -20,4 +47,5 @@
     <string name="open_drawer">Open Drawer</string>
     <string name="close_drawer">Close Drawer</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_settings">Settings</string>
 </resources>

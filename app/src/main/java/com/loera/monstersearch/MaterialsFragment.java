@@ -300,7 +300,7 @@ public class MaterialsFragment extends DialogFragment {
 
                     Log.i("Materials","Selected " + clickedMon);
 
-                    new DataGrabber(clickedMon,context).execute();
+                    new DataGrabber(clickedMon,context,getActivity()).execute();
 
 
 

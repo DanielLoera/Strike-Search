@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
@@ -36,7 +37,8 @@ import java.util.ArrayList;
 public class ResultsFragment extends DialogFragment {
     ArrayList<String> monsters;
     ArrayList<Monster> monData;
-    public static boolean selected;
+    private boolean selected,running;
+    private DisplayResultsPage page;
     View view;
     Context context;
 
@@ -77,6 +79,8 @@ public interface DialogListener{
         view = getView();
         context = getActivity();
 
+        page = new DisplayResultsPage();
+
         if(Home.screenSize == Configuration.SCREENLAYOUT_SIZE_LARGE){
             Log.i("Results","Large Screen Detected");
             int width = (int)getResources().getDimension(R.dimen.popupWidthLarge);
@@ -84,12 +88,17 @@ public interface DialogListener{
         getDialog().getWindow().setLayout(width,height);
         }
 
-        new DisplayResultsPage().execute();
+        running = true;
+
+        page.execute();
+
 
 
     }
 
     public void onDismiss(DialogInterface dialog){
+
+        if(!running){
 
         super.onDismiss(dialog);
 
@@ -97,6 +106,13 @@ public interface DialogListener{
         mBack.setLoading(false);
 
        removeImages();
+        }else{
+
+            mBack.setLoading(false);
+            page.stop = true;
+
+
+        }
 
 
     }
@@ -124,7 +140,7 @@ public interface DialogListener{
 
     private class DisplayResultsPage extends AsyncTask<Void,Void,Void>{
 
-      boolean cancelled;
+      public boolean cancelled,stop;
         @Override
         protected Void doInBackground(Void... params) {
 
@@ -203,6 +219,7 @@ public interface DialogListener{
 
             super.onPostExecute(result);
 
+            if(!stop)
             if(!cancelled) {
                 final LinearLayout layout = (LinearLayout) view.findViewById(R.id.monsterList);
                 TextView textView;
@@ -211,6 +228,7 @@ public interface DialogListener{
                     Monster curMon = monData.get(i);
                     textView = new TextView(context);
                     textView.setId(i);
+                    textView.setTextColor(Color.parseColor("#000000"));
                     textView.setLayoutParams(layout.getLayoutParams());
                     ViewGroup.LayoutParams lp = textView.getLayoutParams();
 
@@ -274,7 +292,7 @@ public interface DialogListener{
 
                         selected = true;
 
-                        new DataGrabber(getMonUrl(monsters.get(v.getId())), context).execute();
+                        new DataGrabber(getMonUrl(monsters.get(v.getId())), context,getActivity()).execute();
 
                         dismiss();
                        }
@@ -295,9 +313,7 @@ public interface DialogListener{
             }
 
                 setLoading(false);
-
-
-
+                running = false;
 
         }
 
@@ -367,6 +383,7 @@ public void setLoading(boolean isLoading) {
     ProgressBar bar = (ProgressBar) view.findViewById(R.id.progressBarResults);
 
     if(isLoading){
+
 
         bar.setVisibility(View.VISIBLE);
 

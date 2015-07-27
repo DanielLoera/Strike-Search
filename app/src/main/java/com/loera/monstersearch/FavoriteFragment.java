@@ -1,5 +1,6 @@
 package com.loera.monstersearch;
 
+import android.app.ActivityOptions;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -8,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,6 +20,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -30,7 +33,7 @@ import java.util.ArrayList;
 public class FavoriteFragment extends android.app.Fragment {
 
     private View view;
-
+    private boolean selecting;
     static ArrayList<Monster> favs;
     Context context;
 
@@ -94,7 +97,6 @@ public class FavoriteFragment extends android.app.Fragment {
             d.setBounds(0,0,b.getWidth()*2,b.getHeight()*2);
             imageView.setImageDrawable(d);
 
-
             return imageView;
         }
     }
@@ -104,6 +106,11 @@ public class FavoriteFragment extends android.app.Fragment {
     public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState){
 
         super.onCreate(savedInstanceState);
+
+        if(getArguments() == null)
+            selecting = false;
+        else
+           selecting = true;
 
         return inflater.inflate(R.layout.fragment_favorite,container,false);
     }
@@ -124,23 +131,56 @@ public class FavoriteFragment extends android.app.Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+              if(!selecting){
                 Intent intent = new Intent(context,MonsterPage.class);
                 intent.putExtra("selection",position);
                 intent.putExtra("monsters",favs);
-                context.startActivity(intent);
+                  if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+                      context.startActivity(intent,ActivityOptions.makeSceneTransitionAnimation(getActivity()).toBundle());
+                        } else
+                      context.startActivity(intent);
+              }else{
+                  try{
+                  File internal = context.getDir("Homescreen",Context.MODE_PRIVATE);
+                   if(!internal.exists())
+                       internal.mkdir();
+                      File imageFile = new File(internal,"image.png");
+                     FileOutputStream out = new FileOutputStream(imageFile);
+                      Bitmap image  = BitmapFactory.decodeFile(favs.get(position).bitmap);
+                      image.compress(Bitmap.CompressFormat.PNG,100,out);
+                      out.close();
+                      Toast.makeText(context.getApplicationContext(),"Homescreen image selected",Toast.LENGTH_SHORT).show();
+                      getFragmentManager().beginTransaction()
+                              .setCustomAnimations(R.anim.slideinleft,R.anim.slideoutright)
+                              .replace(R.id.settingsActivity,new SettingsActivity.SettingsPage()).commit();
+
+                  }catch(Exception e){
+                      e.printStackTrace();
+
+                  }
+
+              }
 
             }
         });
 
 
         if(favs.isEmpty()) {
-            AlertDialog.Builder empty = new AlertDialog.Builder(context);
-            empty.setTitle("No Monsters Found");
-            empty.setIcon(R.drawable.heart_outline);
-            empty.setMessage("Try tapping the heart icon to add Monsters to your Box.");
-            empty.setPositiveButton("OK :(",null);
-            empty.show();
+           emptyError();
         }
+    }
+
+    public void emptyError(){
+
+        AlertDialog.Builder empty = new AlertDialog.Builder(context);
+        empty.setTitle("No Monsters Found");
+        empty.setIcon(R.drawable.heart_outline);
+        empty.setMessage("Try tapping the heart icon to add Monsters to your Box.");
+        empty.setPositiveButton("OK :(",null);
+        empty.show();
+
+
     }
 
     public static void storeFavorites(Context c){

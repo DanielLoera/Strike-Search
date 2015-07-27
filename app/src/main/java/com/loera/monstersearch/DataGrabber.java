@@ -4,11 +4,14 @@ package com.loera.monstersearch;
  * Created by Daniel on 7/5/2015.
  */
 
+import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -30,15 +33,19 @@ public class DataGrabber extends AsyncTask<Void,Void,Void> {
     ArrayList<String> total;
     Monster monsterData;
     Context context;
-    boolean cancelled;
+    Activity parent;
+    public static boolean cancelled,running,stop;
 
 
-    public DataGrabber(String num, Context c){
+
+    public DataGrabber(String num, Context c,Activity p){
 
 
        this.monInput = num;
        this.context = c;
+        this.parent = p;
         cancelled = false;
+        running = true;
 
 
     }
@@ -195,8 +202,9 @@ public class DataGrabber extends AsyncTask<Void,Void,Void> {
 
 
            if (curData.contains("monster-title")){
-               Log.i("DataGrabber", "added name");
-               monsterData.name = addBetweenTags(curData,curData.indexOf(">")+1);
+
+               monsterData.name = addBetweenTags(curData,curData.indexOf("-title")+8);
+               Log.i("DataGrabber", "adding " + monsterData.name);
                String level = "";
                switch(monsterData.name.charAt(monsterData.name.length()-1)){
 
@@ -446,7 +454,16 @@ public class DataGrabber extends AsyncTask<Void,Void,Void> {
         super.onPostExecute(result);
 
 
-        if(!cancelled) {
+
+        if(!stop)
+       if(cancelled) {
+
+
+
+            Toast.makeText(context.getApplicationContext(), "Network Error\nMonster failed to download", Toast.LENGTH_SHORT).show();
+
+        }else{
+
             Log.i("DataGrabber", "storing monsters to Monster Page");
 
 
@@ -455,12 +472,17 @@ public class DataGrabber extends AsyncTask<Void,Void,Void> {
 
             Intent intent = new Intent(context,MonsterPage.class);
             intent.putExtra("monsters",mons);
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+
+                context.startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(parent).toBundle());
+
+            }else{
             context.startActivity(intent);
+            }
 
-        }else{
-
-            Toast.makeText(context.getApplicationContext(),"Network Error\nMonster failed to download",Toast.LENGTH_SHORT).show();
         }
+
+        running = false;
 
 
 

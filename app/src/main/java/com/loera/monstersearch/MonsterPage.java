@@ -1,6 +1,7 @@
 package com.loera.monstersearch;
 
 import android.annotation.TargetApi;
+import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -15,7 +16,7 @@ import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.transition.Explode;
 import android.transition.Fade;
 import android.util.Log;
@@ -43,7 +44,7 @@ import java.net.URL;
 import java.util.ArrayList;
 
 
-public class MonsterPage extends ActionBarActivity implements ResultsFragment.DialogListener,MaterialsFragment.MaterialsListener{
+public class MonsterPage extends AppCompatActivity implements ResultsFragment.DialogListener,MaterialsFragment.MaterialsListener{
     private  ArrayList<Monster> monsters;
     private ImageAdapter adapter;
     private MonsterImageView viewPager;
@@ -61,14 +62,19 @@ public class MonsterPage extends ActionBarActivity implements ResultsFragment.Di
         context  = this;
 
         setContentView(R.layout.activity_monster_page);
-     android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+         viewPager = (MonsterImageView) findViewById(R.id.imageSwipe);
 
      if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
 
          getSupportActionBar().setElevation(0);
+         viewPager.setTransitionName("boxToPage");
 
-     }
+         getWindow().setExitTransition(new Explode().setDuration(500));
+         getWindow().setEnterTransition(new Explode().setDuration(500));
+
+       }
 
          Intent intent  = getIntent();
 
@@ -76,8 +82,6 @@ public class MonsterPage extends ActionBarActivity implements ResultsFragment.Di
          monsters = intent.getParcelableArrayListExtra("monsters");
 
 
-
-        viewPager = (MonsterImageView) findViewById(R.id.imageSwipe);
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -119,12 +123,18 @@ public class MonsterPage extends ActionBarActivity implements ResultsFragment.Di
 
  }
 
+
+
     public void onStop(){
         super.onStop();
 
-        setLoading(false);
+        if(DataGrabber.running)
+            DataGrabber.stop = true;
+
         if(finish)
             finish();
+
+        setLoading(false);
 
     }
 
@@ -211,7 +221,7 @@ public class MonsterPage extends ActionBarActivity implements ResultsFragment.Di
 
             if(imageView.getAnimation() == null){
                 imageView.clearAnimation();
-            TranslateAnimation up = new TranslateAnimation(0,0,imageView.getY(),imageView.getY()-20);
+            TranslateAnimation up = new TranslateAnimation(0,0,0,imageView.getY()-15);
             up.setRepeatCount(-1);
             up.setRepeatMode(Animation.REVERSE);
             up.setDuration(1500);
@@ -305,7 +315,7 @@ public class MonsterPage extends ActionBarActivity implements ResultsFragment.Di
 
                     if(htmlLines.size() == 1){
 
-                       new DataGrabber(getMonUrl(htmlLines.get(0)),context).execute();
+                       new DataGrabber(getMonUrl(htmlLines.get(0)),context,getParent()).execute();
                         finish = true;
 
                     }else{
@@ -430,15 +440,17 @@ public class MonsterPage extends ActionBarActivity implements ResultsFragment.Di
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
 
+            this.setTaskDescription(new ActivityManager.TaskDescription(null,null,pixel));
+
             hsv[2] *= 0.7f;
             pixel = Color.HSVToColor(hsv);
-
-
             Window window = getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 
             window.setStatusBarColor(pixel);
+
+
 
         }
 
@@ -461,6 +473,10 @@ public class MonsterPage extends ActionBarActivity implements ResultsFragment.Di
          int total = 0;
         double calc;
         if(monsterData.maxHealth != null && monsterData.plusHealth != null) {
+            if(monsterData.maxHealth.isEmpty())
+                monsterData.maxHealth = "0";
+            if(monsterData.plusHealth.isEmpty())
+                monsterData.plusHealth = "0";
             total = Integer.parseInt(monsterData.maxHealth) + Integer.parseInt(monsterData.plusHealth);
             RelativeLayout.LayoutParams lp =(RelativeLayout.LayoutParams) bar.getLayoutParams();
 
@@ -482,6 +498,11 @@ public class MonsterPage extends ActionBarActivity implements ResultsFragment.Di
         //attack
         bar = (ProgressBar)findViewById(R.id.progressBarAttack);
         if(monsterData.maxAttack != null && monsterData.plusAttack != null) {
+            if(monsterData.maxAttack.isEmpty())
+                monsterData.maxAttack = "0";
+            if(monsterData.plusAttack.isEmpty())
+                monsterData.plusAttack = "0";
+
             total = Integer.parseInt(monsterData.maxAttack) + Integer.parseInt(monsterData.plusAttack);
 
 
@@ -499,6 +520,12 @@ public class MonsterPage extends ActionBarActivity implements ResultsFragment.Di
         bar = (ProgressBar)findViewById(R.id.progressBarSpeed);
 
         if(monsterData.maxSpeed != null && monsterData.plusSpeed != null) {
+
+            if(monsterData.maxSpeed.isEmpty())
+                monsterData.maxSpeed = "0";
+            if(monsterData.plusSpeed.isEmpty())
+                monsterData.plusSpeed = "0";
+
             total = (int) (Double.parseDouble(monsterData.maxSpeed) + Double.parseDouble(monsterData.plusSpeed));
 
             RelativeLayout.LayoutParams lp =(RelativeLayout.LayoutParams) bar.getLayoutParams();
@@ -730,7 +757,8 @@ public class MonsterPage extends ActionBarActivity implements ResultsFragment.Di
                       public void onClick(DialogInterface dialog, int which) {
 
                           FavoriteFragment.removeFavorite(curMon.num, context);
-                     monsters.remove(currentSelected);
+                          monsters.remove(currentSelected);
+                          displayMonster(monsters.get(currentSelected));
 
                           if(monsters.isEmpty())
                               onBackPressed();

@@ -1,31 +1,40 @@
 package com.loera.monstersearch;
 
+import android.app.ActivityManager;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
+import android.transition.Explode;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.io.File;
 
 
-public class Home extends ActionBarActivity implements ResultsFragment.DialogListener{
+public class Home extends AppCompatActivity implements ResultsFragment.DialogListener{
 
 
     public static String randomImage;
@@ -59,6 +68,9 @@ public class Home extends ActionBarActivity implements ResultsFragment.DialogLis
             DrawerLayout dl = (DrawerLayout)findViewById(R.id.homeLayout);
             dl.closeDrawer(Gravity.LEFT);
 
+            list.clearChoices();
+            list.requestLayout();
+
             boolean pass = true;
 
             int in = 0,out = 0;
@@ -71,7 +83,7 @@ public class Home extends ActionBarActivity implements ResultsFragment.DialogLis
                     lastFrag = currentFrag;
                     currentFrag = "Strike Search";
                     in = R.anim.slideinleft;
-                    out = R.anim.slideoutdown;
+                    out = 0;
                         getSupportActionBar().setTitle("Strike Search");
 
                     }else{
@@ -86,12 +98,20 @@ public class Home extends ActionBarActivity implements ResultsFragment.DialogLis
                         lastFrag = currentFrag;
                         currentFrag = "Monster Box";
                         in = R.anim.slideinup;
-                        out = R.anim.slideoutleft;
+                        out = 0;
                         getSupportActionBar().setTitle("Monster Box");
                     }else{
 
                        pass = false;
                     }
+
+                    break;
+
+                case 2:
+
+                    context.startActivity(new Intent(context,SettingsActivity.class));
+                    pass = false;
+
 
 
 
@@ -99,10 +119,10 @@ public class Home extends ActionBarActivity implements ResultsFragment.DialogLis
 
             if(pass){
             FragmentTransaction ft  = getFragmentManager().beginTransaction();
-                ft.setCustomAnimations(in,out);
-            ft.replace(R.id.contentFrame,fragment);
+            ft.add(R.id.contentFrame, fragment);
+            ft.setCustomAnimations(in, out);
+            ft.show(fragment);
             ft.addToBackStack(currentFrag);
-            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
             ft.commit();
             }
 
@@ -113,26 +133,34 @@ public class Home extends ActionBarActivity implements ResultsFragment.DialogLis
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+
+
+            getWindow().setEnterTransition(new Explode().setDuration(500));
+            getWindow().setExitTransition(new Explode().setDuration(500));
+
+            getSupportActionBar().setElevation(0);
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.setStatusBarColor(Color.parseColor("#1976D2"));
+
+            this.setTaskDescription(new ActivityManager.TaskDescription(null,null,Color.parseColor("#1976D2")));
+             }
+
+        if(savedInstanceState != null)
+            currentFrag = savedInstanceState.getString("fragment");
 
         removeImages();
         screenSize = getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK;
 
         Log.i("Home", "Screensize " + screenSize + " was detected");
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
 
-            getSupportActionBar().setElevation(0);
-            Window window = getWindow();
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-           window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-
-            window.setStatusBarColor(Color.parseColor("#1976D2"));
-
-
-        }
-
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#42A5F5")));
+      getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#42A5F5")));
 
 
 
@@ -173,27 +201,81 @@ public class Home extends ActionBarActivity implements ResultsFragment.DialogLis
 
         if(getFragmentManager().getBackStackEntryCount()== 0){
         FragmentTransaction ft  = getFragmentManager().beginTransaction();
+        if(currentFrag == null)
         fragment = new SearchFragment();
+            else{
+
+            switch (currentFrag){
+
+                case "Strike Search":
+                    fragment = new SearchFragment();
+                    break;
+                case "Monster Box":
+                    fragment = new FavoriteFragment();
+
+            }
+
+        }
         ft.add(R.id.contentFrame,fragment);
 
         ft.commit();
         }
 
-
-
         final String[]  titles  = getResources().getStringArray(R.array.listArray);
         list = (ListView)findViewById(R.id.homeDrawer);
-    list.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_activated_1, titles));
+        list.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_activated_1, titles){
+            @Override
+        public View getView(int position,View convertView,ViewGroup parent){
 
-    list.setOnItemClickListener(new DrawerItemListener());
+                View v = super.getView(position,convertView,parent);
+
+                int draw = 0;
+
+                switch(position){
+                    case 0:
+                        draw = R.drawable.search_black;
+                        break;
+                    case 1:
+                        draw = R.drawable.box;
+                        break;
+                    case 2:
+                        draw = R.drawable.cog;
+                }
+
+
+                Bitmap bit = BitmapFactory.decodeResource(context.getResources(),draw);
+                Drawable icon = new BitmapDrawable(context.getResources(),bit);
+                icon.setBounds(0,0,100,100);
+
+                ((TextView) v).setCompoundDrawables(icon, null, null, null);
+                ((TextView) v).setCompoundDrawablePadding(50);
+                ((TextView)v).setTextColor(Color.parseColor("#000000"));
+
+            return v;
+            }
+
+
+
+    });
+
+
+        list.setOnItemClickListener(new DrawerItemListener());
 
         FavoriteFragment.storeFavorites(this);
+
     }
 
     public void onPostCreate(Bundle savedInstanceState){
 
         super.onPostCreate(savedInstanceState);
         drawerToggle.syncState();
+
+    }
+
+    public void onSaveInstanceState(Bundle state){
+        super.onSaveInstanceState(state);
+
+        state.putString("fragment",currentFrag);
 
     }
 

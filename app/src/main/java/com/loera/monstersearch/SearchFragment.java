@@ -2,15 +2,18 @@ package com.loera.monstersearch;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.TranslateAnimation;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -31,9 +34,10 @@ public class SearchFragment extends android.app.Fragment {
 
     private View view;
     Context context;
-    static int screenSize;
     private int randomStart;
     public static ResultsFragment resultsFragment;
+    private boolean running;
+    SharedPreferences prefs;
 
 
 public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState){
@@ -41,9 +45,6 @@ public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle save
 
 
     super.onCreate(savedInstanceState);
-
-    setRetainInstance(true);
-
 
 
     return inflater.inflate(R.layout.fragment_search,container,false);
@@ -60,13 +61,27 @@ public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle save
 
 
         view = getView();
-
-
         context = getActivity();
+
+       prefs = PreferenceManager.getDefaultSharedPreferences(context);
 
       Log.i("Search","randomImage = " +  Home.randomImage);
 
+        if(prefs.getString("pref_image","none").equals("random"))
         new DisplayRandomImage().execute();
+        else{
+
+            File internal = context.getDir("Homescreen",Context.MODE_PRIVATE);
+
+            File[] imageFiles = internal.listFiles();
+
+            Bitmap image = BitmapFactory.decodeFile(imageFiles[0].getPath());
+
+           ImageView randomImage = (ImageView) view.findViewById(R.id.randomImage);
+
+            randomImage.setImageBitmap(image);
+
+        }
 
 
 
@@ -76,16 +91,30 @@ public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle save
 
         super.onStop();
 
+        if(DataGrabber.running)
+            DataGrabber.stop = true;
+
         setLoading(false);
 
     }
 
 
     public void displayRandomImage(View view){
-
+      if(prefs.getString("pref_imageOnTap","none").equals("random")){
+        if(!running){
         randomStart = 0;
         Home.randomImage = null;
+
+        ImageView image = (ImageView)view.findViewById(R.id.randomImage);
+
+        TranslateAnimation anim = new TranslateAnimation(0,image.getX()-2000,0,0);
+        anim.setDuration(500);
+        anim.setFillAfter(true);
+        image.startAnimation(anim);
+        running = true;
         new DisplayRandomImage().execute();
+        }
+      }
 
     }
 
@@ -148,9 +177,15 @@ public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle save
                 if(Home.randomImage != null){
 
                     if(new File(Home.randomImage).exists()){
+
                 ImageView image = (ImageView) view.findViewById(R.id.randomImage);
 
-                image.setImageBitmap(BitmapFactory.decodeFile(Home.randomImage));
+                        TranslateAnimation anim = new TranslateAnimation(image.getX()+2000,0,0,0);
+                        anim.setDuration(500);
+                        anim.setFillAfter(true);
+
+                        image.setImageBitmap(BitmapFactory.decodeFile(Home.randomImage));
+                        image.startAnimation(anim);
                     }else{
 
                         displayRandomImage(new View(context));
@@ -160,6 +195,8 @@ public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle save
 
                 }
             }
+
+            running = false;
 
         }
     }
@@ -238,7 +275,7 @@ public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle save
 
                         Log.i("DataCheck", "gathering monster data");
 
-                        new DataGrabber(getMonUrl(htmlLines.get(0)),context).execute();
+                        new DataGrabber(getMonUrl(htmlLines.get(0)),context,getActivity()).execute();
 
                     }else{
 
