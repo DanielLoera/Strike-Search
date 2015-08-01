@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -28,13 +29,19 @@ import java.util.Arrays;
 
 public class DataGrabber extends AsyncTask<Void,Void,Void> {
 
-    String monInput;
+    String monInput,message;
     ArrayList<Monster> mons;
     ArrayList<String> total;
     Monster monsterData;
     Context context;
     Activity parent;
     public static boolean cancelled,running,stop;
+
+    public interface LoadingListener{
+
+        public void setLoading(boolean isLoading);
+
+    }
 
 
 
@@ -93,6 +100,7 @@ public class DataGrabber extends AsyncTask<Void,Void,Void> {
         }catch(Exception ignored){
 
             ignored.printStackTrace();
+            message = "Network Error\nMonster failed to download";
             cancelled = true;
 
         }
@@ -110,7 +118,8 @@ public class DataGrabber extends AsyncTask<Void,Void,Void> {
 
         monsterData = new Monster();
 
-        monsterData.num = getMonNum(total.get(i));
+
+        monsterData.num = total.get(i).substring(total.get(i).indexOf("monster/")+8);
         ArrayList<String> htmlLines = new ArrayList();
         try {
 
@@ -132,9 +141,46 @@ public class DataGrabber extends AsyncTask<Void,Void,Void> {
             if(!temp.exists())
                 temp.mkdir();
 
+            monsterData.link = total.get(i);
 
-            URL url2 = new URL("http://www.monsterstrikedatabase.com/monsters/big/" + monsterData.num + ".png");
+            URL url = new URL("http://www.strikeshot.net/"+total.get(i));
+            HttpURLConnection connect2 = (HttpURLConnection) url.openConnection();
+            connect2.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1500.29 Safari/537.36");
+            connect2.connect();
+            BufferedReader htmlStream = new BufferedReader(new InputStreamReader(connect2.getInputStream()));
+
+
+            Log.i("DataGrabber", "accessing page");
+
+
+            String inputLine;
+
+            while ((inputLine = htmlStream.readLine()) != null)
+                htmlLines.add(inputLine);
+
+            htmlStream.close();
+
+            String mainImage, thumbnail;
+
+            int intCheck = Integer.parseInt(monsterData.num);
+
+            if(intCheck > 1063){
+
+
+                mainImage = "http://strikeshot.net/sites/default/files/styles/monstermainpage/public/"+monsterData.num+".png";
+                thumbnail = "http://strikeshot.net/sites/default/files/styles/thumbnail/public/"+monsterData.num+".jpg";
+
+            }else{
+
+                mainImage = "http://www.monsterstrikedatabase.com/monsters/big/" + monsterData.num + ".png";
+                thumbnail = "http://www.monsterstrikedatabase.com/monsters/"+ monsterData.num+ ".jpg";
+
+            }
+
+
+            URL url2 = new URL(mainImage);
             HttpURLConnection connection = (HttpURLConnection) url2.openConnection();
+            connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1500.29 Safari/537.36");
             connection.connect();
             InputStream imgStream = connection.getInputStream();
             Bitmap tempPic = BitmapFactory.decodeStream(imgStream);
@@ -151,8 +197,9 @@ public class DataGrabber extends AsyncTask<Void,Void,Void> {
 
             //creating temp Files
 
-            URL url3 = new URL("http://www.monsterstrikedatabase.com/monsters/"+ monsterData.num+ ".jpg");
+            URL url3 = new URL(thumbnail);
             HttpURLConnection connection3 = (HttpURLConnection)url3.openConnection();
+            connection3.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1500.29 Safari/537.36");
             connection3.connect();
             InputStream thumbStream = connection3.getInputStream();
              tempPic = BitmapFactory.decodeStream(thumbStream);
@@ -165,39 +212,30 @@ public class DataGrabber extends AsyncTask<Void,Void,Void> {
 
             monsterData.thumb = bitmap.getPath();
 
-            Log.i("DataGrabber", "adding thumbnail");
+            Log.i("DataGrabber", "added thumbnail");
 
 
-            monsterData.link = total.get(i);
-
-            URL url = new URL("http://www.strikeshot.net/"+total.get(i));
-            HttpURLConnection connect2 = (HttpURLConnection) url.openConnection();
-            connect2.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1500.29 Safari/537.36");
-            connect2.connect();
-            BufferedReader htmlStream = new BufferedReader(new InputStreamReader(connect2.getInputStream()));
 
 
-            Log.i("DataGrabber", "accessing page");
+        }catch(FileNotFoundException ex){
+
+            cancelled = true;
+            message = "404 Monster Data Not Found";
 
 
-            String inputLine;
-
-            while ((inputLine = htmlStream.readLine()) != null)
-                     htmlLines.add(inputLine);
-
-            htmlStream.close();
-
-        } catch (Exception timeout) {
+        }catch (Exception timeout) {
 
             timeout.printStackTrace();
 
-            if(htmlLines.size() == 0)
+            if(htmlLines.size() == 0){
                 cancelled = true;
+                message = "Network Error\nMonster failed to download";
+            }
 
         }
 
             if(!cancelled){
-       for (int m = 150; m < htmlLines.size(); m++) {
+       for (int m = 0; m < htmlLines.size(); m++) {
             String curData = htmlLines.get(m);
 
 
@@ -227,6 +265,8 @@ public class DataGrabber extends AsyncTask<Void,Void,Void> {
                monsterData.maxLevel = level;
 
             }
+
+
            if(curData.contains("monster-atrri")){
                if(curData.contains("bounce"))
                    monsterData.impact = "Bounce";
@@ -258,6 +298,8 @@ public class DataGrabber extends AsyncTask<Void,Void,Void> {
             if (curData.contains("Ability: ")){
                 Log.i("DataGrabber", "added ability");
                 monsterData.ability = addBetweenTags(curData,curData.indexOf("</span>")+7);
+                if(htmlLines.get(m+1).contains("Gauge Shot"))
+                monsterData.ability = monsterData.ability+"\nGauge:  "+ addBetweenTags(htmlLines.get(m+1),htmlLines.get(m+1).indexOf("</span>")+7);
           }
 
            if(curData.contains(">Health<")){
@@ -373,9 +415,11 @@ public class DataGrabber extends AsyncTask<Void,Void,Void> {
 
                   for(int g = 2;g<found.length;g+=2){
 
-                      String amt = " " + found[g].charAt(found[g].indexOf(" x ")+ 3);
+                      String preAmt = found[g].substring(found[g].indexOf("/monster"));
+                      preAmt = preAmt.substring(preAmt.indexOf("<")+1);
+                      preAmt =" "+ preAmt.charAt(preAmt.indexOf("<")-1);
 
-                      monsterData.ascMat +=(getMonUrl( found[g])+ amt) + "END";
+                      monsterData.ascMat +=(getMonUrl( found[g])+ preAmt) + "END";
                   }
 
 
@@ -442,6 +486,7 @@ public class DataGrabber extends AsyncTask<Void,Void,Void> {
                 }
 
     }
+
             mons.add(monsterData);
             Log.i("DataGrabber", "Monster " + i + " done.");
 
@@ -460,7 +505,8 @@ public class DataGrabber extends AsyncTask<Void,Void,Void> {
 
 
 
-            Toast.makeText(context.getApplicationContext(), "Network Error\nMonster failed to download", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context.getApplicationContext(),message , Toast.LENGTH_SHORT).show();
+           ((LoadingListener)parent).setLoading(false);
 
         }else{
 

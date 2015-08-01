@@ -6,7 +6,7 @@
 
     <item
         android:id="@+id/actionSearch"
-        android:icon="@drawable/ic_search_white_36dp"
+        android:icon="@drawable/search_white"
         app:showAsAction="ifRoom"
         app:actionViewClass="android.widget.SearchView"
         android:menuCategory="container"

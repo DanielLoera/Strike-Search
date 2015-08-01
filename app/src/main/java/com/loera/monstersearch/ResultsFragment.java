@@ -56,10 +56,12 @@ public interface DialogListener{
 
         getDialog().setTitle("Search Results");
         getDialog().setCanceledOnTouchOutside(false);
+
          monsters = getArguments().getStringArrayList("monsters");
 
        return inflater.inflate(R.layout.fragment_results,container,false);
     }
+
 
     public void onAttach(Activity activity){
 
@@ -171,11 +173,24 @@ public interface DialogListener{
 
                     File temp = context.getDir("temp",Context.MODE_PRIVATE);
 
+                    String thumbnail;
+
+                    if(Integer.parseInt(monster.num) > 999){
+
+                        thumbnail = "http://strikeshot.net/sites/default/files/styles/thumbnail/public/"+monster.num+".jpg?itok=ccRWLEqa";
+
+                    }else{
+
+                        thumbnail = "http://www.monsterstrikedatabase.com/monsters/"+ monster.num+ ".jpg";
+
+                    }
+
                     if(!temp.exists())
                         temp.mkdir();
 
-                    URL url3 = new URL("http://www.monsterstrikedatabase.com/monsters/" + monster.num + ".jpg");
+                    URL url3 = new URL(thumbnail);
                     HttpURLConnection connection3 = (HttpURLConnection) url3.openConnection();
+                    connection3.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1500.29 Safari/537.36");
                     connection3.connect();
                     InputStream thumbStream = connection3.getInputStream();
                     Bitmap tempPic = BitmapFactory.decodeStream(thumbStream);
@@ -235,6 +250,7 @@ public interface DialogListener{
                     int stretch = 0;
                     int padding = 0;
                     int height = 0;
+                    float scale = getResources().getDisplayMetrics().density;
 
                     if (curMon.thumb != null) {
                         Bitmap thumbnail = BitmapFactory.decodeFile(curMon.thumb);
@@ -253,6 +269,7 @@ public interface DialogListener{
                             case Configuration.SCREENLAYOUT_SIZE_XLARGE:
 
                                 stretch = thumbnail.getWidth() - (thumbnail.getWidth()/3);
+
                                 padding =15;
                                 height = 100;
 
@@ -264,9 +281,15 @@ public interface DialogListener{
                                padding = 30;
                                 height = 250;
 
+
                         }
 
-                        draw.setBounds(0, 0,  stretch ,stretch );
+                        if(scale <= 1.5){
+                            stretch = stretch - (stretch/2);
+                            height = height - (height/3);
+                        }
+
+                        draw.setBounds(0, 0,  stretch, stretch );
                         lp.height = height;
                         lp.width = ViewGroup.LayoutParams.MATCH_PARENT;
 
@@ -278,8 +301,8 @@ public interface DialogListener{
                         textView.setBackgroundColor(pixel);
 
                     }
-                    textView.setText("  " + curMon.name);
-
+                    textView.setText(curMon.name);
+                    textView.setCompoundDrawablePadding(3);
                     textView.setGravity(Gravity.CENTER_VERTICAL);
                     textView.setPadding(padding, 0, padding, 0);
                     textView.setTextSize(22);
@@ -343,7 +366,7 @@ public interface DialogListener{
             for(int c = 0;c<url.length();c++){
                 if(url.charAt(c) >= '0' && url.charAt(c) <= '9'){
                     temp+= url.charAt(c);
-                if(Integer.parseInt(temp) < 1064)
+                if(Integer.parseInt(temp) < 1438)
                     real = temp;
 
                 }

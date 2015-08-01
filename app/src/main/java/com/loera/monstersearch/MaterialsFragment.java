@@ -3,6 +3,7 @@ package com.loera.monstersearch;
 import android.app.Activity;
 import android.app.DialogFragment;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -20,7 +21,7 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
+import android.widget.Toast;
 
 
 public class MaterialsFragment extends DialogFragment {
@@ -137,6 +138,7 @@ public class MaterialsFragment extends DialogFragment {
 
             if(asc != null){
 
+
                 text = new TextView(context);
                 text.setText("Ascension");
 
@@ -155,7 +157,7 @@ public class MaterialsFragment extends DialogFragment {
                 grid.setGravity(Gravity.CENTER);
 
 
-                grid.setAdapter(new BoxImageAdapter(context));
+                grid.setAdapter(new MaterialsImageAdapter(context));
 
 
 
@@ -174,11 +176,26 @@ public class MaterialsFragment extends DialogFragment {
         public int getEvoId(String s){
 
 
-            String[] split = s.split("x");
+            int stop  = s.indexOf(" x ");
+            if(stop == -1)
+                stop = s.indexOf(" X ");
+            String check = "";
+            for(int a = 0;a<s.length();a++){
+
+                if(a == stop)
+                    break;
+                else
+                    check += s.charAt(a);
+
+            }
+
+            Log.i("TEST", check.trim().toLowerCase());
 
             int drawable;
 
-            switch(split[0].trim().toLowerCase()){
+
+
+            switch(check.trim().toLowerCase()){
 
                 case "divine sharl": drawable = R.drawable.divinesharl;
                     break;
@@ -241,11 +258,11 @@ public class MaterialsFragment extends DialogFragment {
 
 
 
-    private class BoxImageAdapter extends BaseAdapter {
+    private class MaterialsImageAdapter extends BaseAdapter {
 
         Context context;
 
-        public BoxImageAdapter(Context c){
+        public MaterialsImageAdapter(Context c){
 
             this.context = c;
         }
@@ -267,10 +284,44 @@ public class MaterialsFragment extends DialogFragment {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             TextView text;
+
+            int width,paramWidth,paramHeight;
+            float scale = getResources().getDisplayMetrics().density;
+
+            switch (Home.screenSize){
+
+                case Configuration.SCREENLAYOUT_SIZE_LARGE:
+
+                    width = 90;
+                    paramWidth = 200;
+                    paramHeight = 100;
+
+                    break;
+
+                case Configuration.SCREENLAYOUT_SIZE_XLARGE:
+                    width = 50;
+                    paramWidth = 100;
+                    paramHeight = 50;
+
+                    break;
+
+                default: width = 170;
+                    paramWidth = 370;
+                    paramHeight = 270;
+
+
+            }
+
+            if(scale <= 1.5){
+                width = width - (width/2);
+                paramWidth = paramWidth - (paramWidth/2);
+                paramHeight = paramHeight - (paramHeight/3);
+            }
+
             if(convertView  == null){
 
                 text = new TextView(context);
-                text.setLayoutParams(new GridView.LayoutParams(370, 270));
+                text.setLayoutParams(new GridView.LayoutParams(paramWidth,paramHeight));
 
             }else{
 
@@ -279,7 +330,7 @@ public class MaterialsFragment extends DialogFragment {
 
             Bitmap b = BitmapFactory.decodeFile(pics[position]);
             Drawable d = new BitmapDrawable(context.getResources(),b);
-            d.setBounds(0,0,b.getWidth()*2,b.getHeight()*2);
+            d.setBounds(0,0,width,width);
             text.setPadding(0,0,0,0);
             text.setCompoundDrawables(d, null, null, null);
             text.setText(" x " + getAmount(asc[position]));
@@ -300,6 +351,7 @@ public class MaterialsFragment extends DialogFragment {
 
                     Log.i("Materials","Selected " + clickedMon);
 
+                    Toast.makeText(context.getApplicationContext(),"Loading Monster Data",Toast.LENGTH_SHORT).show();
                     new DataGrabber(clickedMon,context,getActivity()).execute();
 
 

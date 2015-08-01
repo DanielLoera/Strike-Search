@@ -34,13 +34,13 @@ import android.widget.TextView;
 import java.io.File;
 
 
-public class Home extends AppCompatActivity implements ResultsFragment.DialogListener{
+public class Home extends AppCompatActivity implements ResultsFragment.DialogListener, DataGrabber.LoadingListener{
 
 
     public static String randomImage;
     public static int screenSize;
     private ListView list;
-    private String currentFrag,lastFrag;
+    public static String currentFrag,lastFrag;
     private static Fragment fragment;
     private ActionBarDrawerToggle drawerToggle;
     public static boolean newFav;
@@ -109,7 +109,8 @@ public class Home extends AppCompatActivity implements ResultsFragment.DialogLis
 
                 case 2:
 
-                    context.startActivity(new Intent(context,SettingsActivity.class));
+                    Intent intent = new Intent(context,SettingsActivity.class);
+                    context.startActivity(intent);
                     pass = false;
 
 
@@ -216,7 +217,7 @@ public class Home extends AppCompatActivity implements ResultsFragment.DialogLis
             }
 
         }
-        ft.add(R.id.contentFrame,fragment);
+        ft.replace(R.id.contentFrame,fragment);
 
         ft.commit();
         }
@@ -245,10 +246,33 @@ public class Home extends AppCompatActivity implements ResultsFragment.DialogLis
 
                 Bitmap bit = BitmapFactory.decodeResource(context.getResources(),draw);
                 Drawable icon = new BitmapDrawable(context.getResources(),bit);
-                icon.setBounds(0,0,100,100);
+
+                int iconSize;
+                int padding;
+                float scale = getResources().getDisplayMetrics().density;
+
+                switch (screenSize){
+
+                    case Configuration.SCREENLAYOUT_SIZE_XLARGE:
+                        iconSize = 30;
+                        padding = 10;
+                        break;
+                    case Configuration.SCREENLAYOUT_SIZE_LARGE:
+                        iconSize = 50;
+                        padding = 20;
+                        break;
+
+                    default: iconSize = 100;
+                             padding  = 50;
+                                        }
+
+                if(scale <= 1.5)
+                    iconSize /=2;
+                
+                icon.setBounds(0,0,iconSize,iconSize);
 
                 ((TextView) v).setCompoundDrawables(icon, null, null, null);
-                ((TextView) v).setCompoundDrawablePadding(50);
+                ((TextView) v).setCompoundDrawablePadding(padding);
                 ((TextView)v).setTextColor(Color.parseColor("#000000"));
 
             return v;
@@ -347,10 +371,11 @@ public class Home extends AppCompatActivity implements ResultsFragment.DialogLis
        File temp = this.getDir("temp",Context.MODE_PRIVATE);
 
         if(!temp.exists())
-            temp.mkdir();
+            temp.mkdirs();
 
         File [] files = temp.listFiles();
 
+        if(files != null && files.length != 0)
           for(File f:files)
               f.delete();
     }

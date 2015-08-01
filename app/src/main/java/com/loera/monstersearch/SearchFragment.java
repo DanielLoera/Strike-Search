@@ -30,11 +30,12 @@ import java.net.URL;
 import java.util.ArrayList;
 
 
-public class SearchFragment extends android.app.Fragment {
+public class SearchFragment extends android.app.Fragment{
 
     private View view;
     Context context;
     private int randomStart;
+    private ImageView image;
     public static ResultsFragment resultsFragment;
     private boolean running;
     SharedPreferences prefs;
@@ -51,6 +52,13 @@ public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle save
 
 }
 
+    public void onCreate(Bundle state){
+
+        super.onCreate(state);
+
+
+       }
+
 
 
 
@@ -63,27 +71,44 @@ public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle save
         view = getView();
         context = getActivity();
 
+
+        image = (ImageView)view.findViewById(R.id.randomImage);
+
+
        prefs = PreferenceManager.getDefaultSharedPreferences(context);
 
       Log.i("Search","randomImage = " +  Home.randomImage);
 
-        if(prefs.getString("pref_image","none").equals("random"))
-        new DisplayRandomImage().execute();
-        else{
+        String prefImage = prefs.getString("pref_image","none");
 
-            File internal = context.getDir("Homescreen",Context.MODE_PRIVATE);
+        if(prefImage.equals("none"))
+            PreferenceManager.setDefaultValues(context,R.xml.preferences,true);
+
+        prefImage = prefs.getString("pref_image","none");
+
+        if(prefImage.equals("random"))
+        new DisplayRandomImage().execute();
+        else if(prefImage.equals("box")) {
+
+            File internal = context.getDir("Homescreen", Context.MODE_PRIVATE);
+            if (!internal.exists())
+                internal.mkdir();
 
             File[] imageFiles = internal.listFiles();
 
-            Bitmap image = BitmapFactory.decodeFile(imageFiles[0].getPath());
+            if (imageFiles.length != 0) {
 
-           ImageView randomImage = (ImageView) view.findViewById(R.id.randomImage);
+                Bitmap image = BitmapFactory.decodeFile(imageFiles[0].getPath());
 
-            randomImage.setImageBitmap(image);
+                ImageView randomImage = (ImageView) view.findViewById(R.id.randomImage);
+
+                randomImage.setImageBitmap(image);
+
+            }else{
+                new DisplayRandomImage().execute();
+            }
 
         }
-
-
 
     }
     public void onStop()
@@ -100,16 +125,19 @@ public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle save
 
 
     public void displayRandomImage(View view){
-      if(prefs.getString("pref_imageOnTap","none").equals("random")){
+
+        String prefOnTap = prefs.getString("pref_imageOnTap","none");
+        if(prefOnTap.equals("none"))
+            PreferenceManager.setDefaultValues(context,R.xml.preferences,true);
+        prefOnTap = prefs.getString("pref_imageOnTap","none");
+
+      if(prefOnTap.equals("random")){
         if(!running){
         randomStart = 0;
         Home.randomImage = null;
-
-        ImageView image = (ImageView)view.findViewById(R.id.randomImage);
-
-        TranslateAnimation anim = new TranslateAnimation(0,image.getX()-2000,0,0);
-        anim.setDuration(500);
-        anim.setFillAfter(true);
+            TranslateAnimation anim = new TranslateAnimation(0,image.getX()-2000,0,0);
+            anim.setDuration(500);
+            anim.setFillAfter(true);
         image.startAnimation(anim);
         running = true;
         new DisplayRandomImage().execute();
@@ -178,9 +206,7 @@ public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle save
 
                     if(new File(Home.randomImage).exists()){
 
-                ImageView image = (ImageView) view.findViewById(R.id.randomImage);
-
-                        TranslateAnimation anim = new TranslateAnimation(image.getX()+2000,0,0,0);
+                       TranslateAnimation anim = new TranslateAnimation(image.getX()+2000,0,0,0);
                         anim.setDuration(500);
                         anim.setFillAfter(true);
 
@@ -206,6 +232,7 @@ public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle save
         Context context;
         String monsterNum;
         boolean error,cancelled;
+        int matches;
 
 
         public DataCheck(String n,Context c){
@@ -265,6 +292,9 @@ public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle save
                 }
 
 
+                matches = htmlLines.size();
+
+
 
                 if (!htmlLines.isEmpty()) {
 
@@ -319,13 +349,26 @@ public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle save
             super.onPostExecute(result);
 
 
-            if(error)
+            if(error){
                 error();
+            return;
+            }
             if(cancelled){
                 Toast.makeText(context.getApplicationContext(), "Network Error\nMonster failed to donwnload", Toast.LENGTH_SHORT).show();
                 setLoading(false);
+                return;
             }
 
+
+             String foundMessage;
+
+            if(matches > 1)
+                foundMessage = "Found " + matches + " Matches";
+            else
+                foundMessage = "Found 1 Match";
+
+
+            Toast.makeText(context.getApplicationContext(),foundMessage,Toast.LENGTH_SHORT).show();
 
 
         }
@@ -400,7 +443,7 @@ public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle save
             if(number > 9999)
                 return true;
 
-            if (number == 0 || number > 1063)
+            if (number == 0 || number > 1438)
                 return true;
 
         }else{
@@ -436,25 +479,18 @@ public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle save
     }
 
     public void showResults(View v){
+       if(!DataGrabber.running) {
+    EditText text = (EditText) view.findViewById(R.id.monsterText);
+    String num = text.getText().toString();
+    Log.i("Search Fragment", "found " + num);
+    if (invalid(num)) {
 
-
-
-
-        EditText text = (EditText)view.findViewById(R.id.monsterText);
-        String num = text.getText().toString();
-        Log.i("Search Fragment", "found " + num);
-        if(invalid(num)){
-
-            error();
-        }else {
-            setLoading(true);
-            new DataCheck(num,context).execute();
-        }
-
-
-
-
-
+        error();
+    } else {
+        setLoading(true);
+        new DataCheck(num, context).execute();
+    }
+}
     }
 
 

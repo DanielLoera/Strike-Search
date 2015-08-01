@@ -1,6 +1,5 @@
 package com.loera.monstersearch;
 
-import android.annotation.TargetApi;
 import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -18,7 +17,6 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.transition.Explode;
-import android.transition.Fade;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -44,7 +42,7 @@ import java.net.URL;
 import java.util.ArrayList;
 
 
-public class MonsterPage extends AppCompatActivity implements ResultsFragment.DialogListener,MaterialsFragment.MaterialsListener{
+public class MonsterPage extends AppCompatActivity implements ResultsFragment.DialogListener,MaterialsFragment.MaterialsListener, DataGrabber.LoadingListener{
     private  ArrayList<Monster> monsters;
     private ImageAdapter adapter;
     private MonsterImageView viewPager;
@@ -82,7 +80,7 @@ public class MonsterPage extends AppCompatActivity implements ResultsFragment.Di
          monsters = intent.getParcelableArrayListExtra("monsters");
 
 
-        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -247,6 +245,7 @@ public class MonsterPage extends AppCompatActivity implements ResultsFragment.Di
         Context context;
         String monsterNum;
         boolean error,cancelled;
+        int matches;
 
 
 
@@ -276,10 +275,6 @@ public class MonsterPage extends AppCompatActivity implements ResultsFragment.Di
 
 
             try {
-
-
-
-
                 if(isNum){
                     Log.i("DataCheck","searching for monster with number " + monsterNum);
 
@@ -307,6 +302,7 @@ public class MonsterPage extends AppCompatActivity implements ResultsFragment.Di
                     htmlStream.close();
                 }
 
+                matches  = htmlLines.size();
 
                 if (!htmlLines.isEmpty()) {
 
@@ -315,7 +311,7 @@ public class MonsterPage extends AppCompatActivity implements ResultsFragment.Di
 
                     if(htmlLines.size() == 1){
 
-                       new DataGrabber(getMonUrl(htmlLines.get(0)),context,getParent()).execute();
+                       new DataGrabber(getMonUrl(htmlLines.get(0)),context,MonsterPage.this).execute();
                         finish = true;
 
                     }else{
@@ -327,9 +323,7 @@ public class MonsterPage extends AppCompatActivity implements ResultsFragment.Di
                         bundle.putStringArrayList("monsters", htmlLines);
                         resultsFragment.setArguments(bundle);
 
-                       finish = true;
-
-
+                        finish = true;
                         resultsFragment.show(getFragmentManager(), "Results");
 
                     }
@@ -350,16 +344,25 @@ public class MonsterPage extends AppCompatActivity implements ResultsFragment.Di
         protected void onPostExecute(Void result){
             super.onPostExecute(result);
 
-            if(error)
+            if(error) {
                 error();
-
+            return;
+            }
             if(cancelled){
                 Toast.makeText(context.getApplicationContext(),"Network Error\nMonster failed to download",Toast.LENGTH_SHORT).show();
                 setLoading(false);
+                return;
             }
 
+            String foundMessage;
+
+            if(matches > 1)
+                foundMessage = "Found " + matches + " Matches";
+            else
+                foundMessage = "Found 1 Match";
 
 
+            Toast.makeText(context.getApplicationContext(),foundMessage,Toast.LENGTH_SHORT).show();
 
         }
 
@@ -402,19 +405,6 @@ public class MonsterPage extends AppCompatActivity implements ResultsFragment.Di
 
     }
 
-
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private void setupWindowAnimations(){
-
-        Explode explode = new Explode();
-        explode.setDuration(2000);
-        getWindow().setEnterTransition(explode);
-
-        Fade fade = new Fade();
-        fade.setDuration(2000);
-        getWindow().setReturnTransition(fade);
-    }
-
     public void displayMonster(Monster monsterData){
 
        if(!(menu == null)){
@@ -425,20 +415,19 @@ public class MonsterPage extends AppCompatActivity implements ResultsFragment.Di
            favorite.setIcon(R.drawable.heart_outline);
        }
 
-        ImageView thumb = (ImageView)findViewById(R.id.thumbImage);
-        Bitmap image  = BitmapFactory.decodeFile(monsterData.thumb);
-        thumb.setImageBitmap(image);
-        int pixel = image.getPixel(image.getWidth()-10,image.getHeight()/4);
-          float[] hsv = new float[3];
-          Color.colorToHSV(pixel, hsv);
-          hsv[2] *= 0.8f;
-          pixel = Color.HSVToColor(hsv);
-    getSupportActionBar().setBackgroundDrawable(new ColorDrawable(pixel));
+        if(monsterData.thumb != null) {
+            ImageView thumb = (ImageView) findViewById(R.id.thumbImage);
+            Bitmap image = BitmapFactory.decodeFile(monsterData.thumb);
+            thumb.setImageBitmap(image);
+            if(image != null){
+            int pixel = image.getPixel(image.getWidth() - 5, image.getHeight() / 4);
+            float[] hsv = new float[3];
+            Color.colorToHSV(pixel, hsv);
+            hsv[2] *= 0.8f;
+            pixel = Color.HSVToColor(hsv);
+            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(pixel));
 
-
-
-
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
 
             this.setTaskDescription(new ActivityManager.TaskDescription(null,null,pixel));
 
@@ -452,6 +441,8 @@ public class MonsterPage extends AppCompatActivity implements ResultsFragment.Di
 
 
 
+                }
+            }
         }
 
 
@@ -592,7 +583,7 @@ public class MonsterPage extends AppCompatActivity implements ResultsFragment.Di
         if(monsterData.strikeInfo == null && monsterData.strikeName == null)
             view.setText("Unknown");
         else
-        view.setText(monsterData.strikeName+":\n"+ monsterData.strikeInfo);
+        view.setText(removeJunk(monsterData.strikeName)+":\n"+ monsterData.strikeInfo);
         view = (TextView)findViewById(R.id.cooldown);
         if(monsterData.cooldown == null)
             view.setText("Unknown");
@@ -603,7 +594,7 @@ public class MonsterPage extends AppCompatActivity implements ResultsFragment.Di
         if(monsterData.bcName == null && monsterData.bcInfo == null)
             view.setText("Unknown");
         else
-        view.setText(monsterData.bcName + ":\n" + monsterData.bcInfo);
+        view.setText("Bump Combo:\n"+monsterData.bcName + "\n" + monsterData.bcInfo);
         view = (TextView)findViewById(R.id.bcPower);
         if(monsterData.bcPower == null)
             view.setText("Unknown");
@@ -612,6 +603,28 @@ public class MonsterPage extends AppCompatActivity implements ResultsFragment.Di
 
 
 
+    }
+
+    public String removeJunk(String junk){
+
+        int begin = junk.indexOf("&");
+        int end  = junk.indexOf(";");
+
+        if(begin == -1 || end == -1)
+            return junk;
+
+        String dejunked = "";
+
+        for(int a = 0;a<junk.length();a++){
+
+            if(a < begin || a > end)
+                dejunked += junk.charAt(a);
+            else if(a == begin)
+                dejunked += "'";
+
+        }
+
+        return removeJunk(dejunked);
     }
 
     public void setLoading(boolean isLoading){
@@ -715,8 +728,6 @@ public class MonsterPage extends AppCompatActivity implements ResultsFragment.Di
                 MaterialsFragment mat;
 
                 Bundle bundle = new Bundle();
-
-
                 bundle.putString("asc", curMon.ascMat);
                 bundle.putString("evo", curMon.evoMat);
                 bundle.putString("pics",curMon.ascLinks);
@@ -744,12 +755,8 @@ public class MonsterPage extends AppCompatActivity implements ResultsFragment.Di
             Toast.makeText(context.getApplicationContext(),"Added to Monster Box",Toast.LENGTH_SHORT).show();
           }else{
 
-
-              if(isMonsterBox){
-
-
-
-                  AlertDialog.Builder error = new AlertDialog.Builder(this);
+             if(isMonsterBox){
+               AlertDialog.Builder error = new AlertDialog.Builder(this);
                   error.setTitle("Monster Removal");
                   error.setMessage("Remove\n" + monsters.get(currentSelected).name + "\nfrom your Monster Box?");
                   error.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
@@ -758,28 +765,24 @@ public class MonsterPage extends AppCompatActivity implements ResultsFragment.Di
 
                           FavoriteFragment.removeFavorite(curMon.num, context);
                           monsters.remove(currentSelected);
-                          displayMonster(monsters.get(currentSelected));
+
+                          if(!monsters.isEmpty())
+                          if(currentSelected == monsters.size())
+                             displayMonster(monsters.get(currentSelected-1));
+                          else
+                             displayMonster(monsters.get(currentSelected));
 
                           if(monsters.isEmpty())
-                              onBackPressed();
+                             onBackPressed();
                           else
-                           adapter.notifyDataSetChanged();
+                             adapter.notifyDataSetChanged();
+
                          }
                   });
                   error.setNegativeButton("Cancel",null);
                   setLoading(false);
                   error.show();
-
-
-
-
-
-
-
-
-
-
-          }else{
+                }else{
                   item.setIcon(R.drawable.heart_outline);
                   curMon.favorited = false;
                   FavoriteFragment.removeFavorite(curMon.num, context);

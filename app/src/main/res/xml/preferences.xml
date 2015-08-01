@@ -9,7 +9,7 @@
         android:entries="@array/pref_imageEntries"
         android:entryValues="@array/pref_imageValues"
         android:defaultValue="random"
-        android:summary="Choose what Monster shows on app startup."
+        android:summary="Choose what Monster shows on app startup"
          />
 
        <ListPreference
@@ -19,7 +19,7 @@
            android:entries="@array/pref_imageOnTapEntries"
            android:entryValues="@array/pref_imageOnTapValues"
            android:defaultValue="random"
-           android:summary="Choose what happens when you tap on the image."
+           android:summary="Choose what happens when you tap on the image"
            />
 
 
@@ -28,21 +28,36 @@
     <PreferenceCategory android:title="Feedback">
 
         <PreferenceScreen
-            android:title="Rate this app on Play Store"
+            android:title="Play Store Rating"
             android:icon="@drawable/start_rating"
-            android:summary="Please take a moment to rate this app on the Play Store.">
+            android:summary="Please take a moment to rate this app on the Play Store">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="market://details?id=com.loera.monstersearch" />
         </PreferenceScreen>
 
         <PreferenceScreen
-            android:title="Contact Developer"
+            android:title="Contact"
             android:icon="@drawable/mail_contact_me">
             <intent
                 android:action="android.intent.action.VIEW"
-                android:data="mailto:danny.reatret@gmail.com?subject=Monster Search User Question"/>
+                android:data="mailto:danielloera@utexas.edu?subject=Strike Search User Question"/>
         </PreferenceScreen>
+
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Donate">
+
+        <Preference
+            android:title="Donate to Developer"
+            android:summary="Help out a poor college student"
+            android:icon="@drawable/thumbup"
+            android:key="pref_donate"
+
+            >
+
+        </Preference>
 
 
     </PreferenceCategory>

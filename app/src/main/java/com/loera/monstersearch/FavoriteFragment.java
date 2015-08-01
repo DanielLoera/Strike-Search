@@ -3,6 +3,7 @@ package com.loera.monstersearch;
 import android.app.ActivityOptions;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
@@ -64,7 +65,8 @@ public class FavoriteFragment extends android.app.Fragment {
         public View getView(int position, View convertView, ViewGroup parent) {
             ImageView imageView;
 
-            int width = 0;
+            int width;
+            float scale = getResources().getDisplayMetrics().density;
 
             switch (Home.screenSize){
 
@@ -80,7 +82,12 @@ public class FavoriteFragment extends android.app.Fragment {
                     break;
 
                 default: width = 170;
+
+
             }
+
+            if(scale <= 1.5)
+                width = width - (width/2);
 
             if(convertView  == null){
 
@@ -92,10 +99,13 @@ public class FavoriteFragment extends android.app.Fragment {
                 imageView = (ImageView)convertView;
             }
 
+
             Bitmap b = BitmapFactory.decodeFile(favs.get(position).thumb);
             Drawable d = new BitmapDrawable(context.getResources(),b);
+            if(b != null){
             d.setBounds(0,0,b.getWidth()*2,b.getHeight()*2);
             imageView.setImageDrawable(d);
+            }
 
             return imageView;
         }
@@ -151,6 +161,7 @@ public class FavoriteFragment extends android.app.Fragment {
                       image.compress(Bitmap.CompressFormat.PNG,100,out);
                       out.close();
                       Toast.makeText(context.getApplicationContext(),"Homescreen image selected",Toast.LENGTH_SHORT).show();
+                      selecting = false;
                       getFragmentManager().beginTransaction()
                               .setCustomAnimations(R.anim.slideinleft,R.anim.slideoutright)
                               .replace(R.id.settingsActivity,new SettingsActivity.SettingsPage()).commit();
@@ -165,20 +176,43 @@ public class FavoriteFragment extends android.app.Fragment {
             }
         });
 
-
-        if(favs.isEmpty()) {
+           if(!selecting){
+        if(favs.isEmpty() && Home.currentFrag.equals("Monster Box")) {
            emptyError();
         }
+           }else{
+            if(favs.isEmpty())
+                emptyError();
+
+        }
+
     }
 
     public void emptyError(){
 
-        AlertDialog.Builder empty = new AlertDialog.Builder(context);
+         AlertDialog.Builder empty = new AlertDialog.Builder(context);
         empty.setTitle("No Monsters Found");
         empty.setIcon(R.drawable.heart_outline);
         empty.setMessage("Try tapping the heart icon to add Monsters to your Box.");
-        empty.setPositiveButton("OK :(",null);
+        empty.setPositiveButton("OK :(",new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if(selecting){
+
+                    selecting = false;
+                    getFragmentManager().beginTransaction()
+                    .replace(R.id.settingsActivity,new SettingsActivity.SettingsPage())
+                            .commit();
+
+                    dialog.dismiss();
+                        }
+
+
+
+            }
+        });
         empty.show();
+
 
 
     }
@@ -186,11 +220,14 @@ public class FavoriteFragment extends android.app.Fragment {
     public static void storeFavorites(Context c){
 
         File internal = c.getDir("Monsters",Context.MODE_PRIVATE);
+        if(!internal.exists())
+            internal.mkdir();
 
         favs = new ArrayList<>();
 
         File[] monsters  = internal.listFiles();
 
+       if(monsters != null && monsters.length != 0)
         for(File f:monsters){
 
             Monster m = new Monster();
@@ -234,10 +271,16 @@ public class FavoriteFragment extends android.app.Fragment {
                             }
                            if(line.equals("impact"))
                                m.impact = reader.readLine();
-                           if(line.equals("ability"))
+                           if(line.equals("ability")){
                                m.ability = reader.readLine();
-                           if(line.equals("type"))
-                               m.type  = reader.readLine();
+                               String gauge ="";
+                               while(!(gauge = reader.readLine()).equals("type")){
+
+                                   m.ability += "\n" +gauge;
+                               }
+                               m.type = reader.readLine();
+                           }
+
                             if(line.equals("strikename"))
                                 m.strikeName = reader.readLine();
                             if(line.equals("strikeinfo")){
