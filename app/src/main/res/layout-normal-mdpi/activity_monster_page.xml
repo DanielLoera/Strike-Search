@@ -62,12 +62,12 @@
         android:clipChildren="false"
         android:clipToPadding="false"
         android:layout_width="fill_parent"
-        android:layout_height="560dp"
+        android:layout_height="200dp"
         android:layout_alignParentTop="true"
         android:layout_marginTop="60dp"
         android:layout_centerHorizontal="true"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
         />
 
 
@@ -77,7 +77,7 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="@string/lv"
         android:id="@+id/lv"
-        android:paddingTop="600dp"
+        android:paddingTop="253dp"
         android:layout_alignParentLeft="true"
         android:shadowDx="2"
         android:shadowDy="2"
@@ -160,7 +160,7 @@
         android:layout_toRightOf="@+id/hp"
 
         android:layout_below="@+id/lv"
-        android:layout_width="380dp"
+        android:layout_width="150dp"
         android:layout_height="10dp"
         android:progressDrawable="@drawable/green_progress"
         android:layout_marginTop="8dp"
@@ -174,7 +174,7 @@
         android:layout_toRightOf="@+id/attack"
         android:layout_below="@+id/progressBarHP"
         android:paddingTop="4dp"
-        android:layout_width="380dp"
+        android:layout_width="150dp"
         android:layout_marginTop="7dp"
         android:layout_height="14dp"
         android:progressDrawable="@drawable/red_progress" />
@@ -188,7 +188,7 @@
         android:id="@+id/progressBarSpeed"
         android:layout_toRightOf="@+id/speed"
         android:layout_below="@+id/progressBarAttack"
-        android:layout_width="380dp"
+        android:layout_width="150dp"
         android:layout_height="13dp"
         android:layout_marginTop="7dp"
         android:progressDrawable="@drawable/blue_progress"
@@ -203,7 +203,7 @@
         android:layout_below="@+id/imageSwipe"
         android:layout_toRightOf="@+id/progressBarHP"
         android:paddingTop="3dp"
-        android:layout_marginTop="1dp"
+        android:layout_marginTop="11dp"
         android:paddingLeft="7dp"
 
         android:shadowDx="2"
@@ -250,7 +250,7 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:id="@+id/plusHealth"
         android:layout_below="@+id/imageSwipe"
-        android:layout_marginTop="1dp"
+        android:layout_marginTop="10dp"
         android:layout_toRightOf="@+id/healthNum"
         android:paddingLeft="7dp"
 
@@ -301,7 +301,7 @@
         android:fitsSystemWindows="true"
         android:id="@+id/textScrollView"
         android:scrollbars="none"
-        android:layout_marginTop="700dp"
+        android:layout_marginTop="340dp"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginRight="@dimen/activity_horizontal_margin">
 

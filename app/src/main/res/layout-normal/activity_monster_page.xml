@@ -7,7 +7,7 @@
     android:layout_height="wrap_content"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:background="#242424"
-    tools:context="com.loera.monstersearch.MonsterPage"
+    tools:context="com.loera.monstersearch.MonsterPageActivity"
 
     android:clipToPadding="true">
 

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/homeLayout"
-    tools:context="com.loera.monstersearch.Home"
+    tools:context="com.loera.monstersearch.HomeActivity"
     android:background="#242424"
     >
 

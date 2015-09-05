@@ -8,7 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.loera.monstersearch.FavoriteFragment"
+    tools:context="com.loera.monstersearch.MonsterBoxFragment"
     android:background="#242424"
     android:id="@+id/monsterBoxGrid"
     android:columnWidth="85dp"

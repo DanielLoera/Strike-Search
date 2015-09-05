@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="fill_parent"
+    android:layout_width="fill_parent"
+    >
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="100dp"
+        android:id="@+id/bannerImage"
+        />
+
+    <TextView
+        android:id="@+id/minElementTitle"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bannerImage"
+        android:layout_alignTop="@+id/minElement"
+
+        android:text="Minion Element:"
+        />
+    <TextView
+        android:id="@+id/minElement"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/minElementTitle"
+        android:layout_below="@+id/bannerImage"/>
+    <TextView
+    android:id="@+id/bossTypeTitle"
+    android:layout_width="150dp"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/minElementTitle"
+        android:layout_alignTop="@+id/bossType"
+
+        android:text="Boss Type:"
+        />
+    <TextView
+        android:id="@+id/bossType"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/minElement"
+        android:layout_toRightOf="@+id/bossTypeTitle"
+        />
+    <TextView
+        android:id="@+id/bossAbilTitle"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bossTypeTitle"
+        android:text="Boss Ability:"
+        android:layout_alignTop="@+id/bossAbility"
+        />
+
+    <TextView
+        android:id="@+id/bossAbility"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bossType"
+        android:layout_toRightOf="@id/bossAbilTitle"
+        />
+    <TextView
+        android:id="@+id/bossDiffTitle"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bossAbilTitle"
+        android:text="Boss Difficulty:"
+        android:layout_alignTop="@+id/bossDifficulty"
+        />
+    <TextView
+        android:id="@+id/bossDifficulty"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bossAbility"
+        android:layout_toRightOf="@id/bossDiffTitle"
+        />
+    <TextView
+        android:id="@+id/bossElementTitle"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bossDiffTitle"
+        android:text="Boss Element:"
+        android:layout_alignTop="@+id/bossElement"
+        />
+    <TextView
+        android:id="@+id/bossElement"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bossDifficulty"
+        android:layout_toRightOf="@+id/bossElementTitle"
+        />
+
+    <TextView
+        android:id="@+id/gimmicksTitle"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bossElementTitle"
+        android:text="Boss Gimmicks:"
+        android:layout_alignTop="@+id/gimmicks"
+        />
+
+    <TextView
+        android:id="@+id/gimmicks"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bossElement"
+        android:layout_toRightOf="@id/gimmicksTitle"
+        />
+    <TextView
+        android:id="@+id/speedClearTitle"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/gimmicksTitle"
+        android:text="Speed Clear:"
+        android:layout_alignTop="@+id/speedClear"
+        />
+    <TextView
+        android:id="@+id/speedClear"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/gimmicks"
+        android:layout_toRightOf="@+id/speedClearTitle"/>
+    <TextView
+        android:id="@+id/difficultyTitle"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/speedClearTitle"
+        android:text="Difficulty:"
+        android:layout_alignTop="@+id/difficulty"
+        />
+    <TextView
+        android:id="@+id/difficulty"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/speedClear"
+        android:layout_toRightOf="@+id/difficultyTitle"/>
+
+    <TextView
+        android:id="@+id/overviewTitle"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/difficulty"
+        android:text="EVENT OVERVIEW"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+
+        />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:id="@+id/overview"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/overviewTitle"
+        android:scrollbars="none"
+        ></LinearLayout>
+
+    <TextView
+        android:layout_marginTop="30dp"
+        android:id="@+id/recomTitle"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/overview"
+        android:text="RECOMMENDED MONSTERS"
+       android:gravity="center_horizontal"
+
+        />
+
+    <ScrollView
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="200dp"
+        android:layout_below="@+id/recomTitle"
+        android:scrollbars="none"
+        android:id="@+id/horizontalScroll"
+        >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:id="@+id/recommendedMonsters"
+
+
+            ></LinearLayout>
+
+        </ScrollView>
+
+    <ListView
+        android:id="@+id/guide"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/horizontalScroll"
+        android:scrollbars="none"
+        />
+
+
+
+</RelativeLayout>
+
+</ScrollView>

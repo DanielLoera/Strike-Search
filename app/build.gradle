@@ -8,8 +8,8 @@ android {
         applicationId "com.loera.monstersearch"
         minSdkVersion 15
         targetSdkVersion 22
-        versionCode 31
-        versionName "1.01"
+        versionCode 36
+        versionName "1.09"
     }
     buildTypes {
         release {

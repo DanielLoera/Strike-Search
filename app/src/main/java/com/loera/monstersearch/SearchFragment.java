@@ -29,8 +29,15 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-
-public class SearchFragment extends android.app.Fragment{
+/**
+*
+*
+* This Fragment is the startup page with
+* the main Search Box to begin your journey! :)
+*
+*
+* */
+public class SearchFragment extends android.app.Fragment {
 
     private View view;
     Context context;
@@ -41,29 +48,25 @@ public class SearchFragment extends android.app.Fragment{
     SharedPreferences prefs;
 
 
-public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState){
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 
+        super.onCreate(savedInstanceState);
 
-    super.onCreate(savedInstanceState);
 
+        return inflater.inflate(R.layout.fragment_search, container, false);
 
-    return inflater.inflate(R.layout.fragment_search,container,false);
+    }
 
-}
-
-    public void onCreate(Bundle state){
+    public void onCreate(Bundle state) {
 
         super.onCreate(state);
 
 
-       }
+    }
 
 
-
-
-
-    public void onStart(){
+    public void onStart() {
 
         super.onStart();
 
@@ -72,23 +75,39 @@ public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle save
         context = getActivity();
 
 
-        image = (ImageView)view.findViewById(R.id.randomImage);
+        image = (ImageView) view.findViewById(R.id.randomImage);
 
+        //Long click opens MonsterPageActivity to display the Monster
+        //from the Monster Image.
+        image.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
 
-       prefs = PreferenceManager.getDefaultSharedPreferences(context);
+                if (randomStart != 0) {
+                    new MonsterGrabber("monster/" + randomStart, context, getActivity()).execute();
+                    setLoading(true);
+                    Toast.makeText(context, "Loading Monster " + randomStart, Toast.LENGTH_SHORT).show();
+                }
+                return false;
+            }
+        });
 
-      Log.i("Search","randomImage = " +  Home.randomImage);
+        //Random Monster Image set based on
+        //your settings.
+        prefs = PreferenceManager.getDefaultSharedPreferences(context);
 
-        String prefImage = prefs.getString("pref_image","none");
+        Log.i("Search", "randomImage = " + HomeActivity.randomImage);
 
-        if(prefImage.equals("none"))
-            PreferenceManager.setDefaultValues(context,R.xml.preferences,true);
+        String prefImage = prefs.getString("pref_image", "none");
 
-        prefImage = prefs.getString("pref_image","none");
+        if (prefImage.equals("none"))
+            PreferenceManager.setDefaultValues(context, R.xml.preferences, true);
 
-        if(prefImage.equals("random"))
-        new DisplayRandomImage().execute();
-        else if(prefImage.equals("box")) {
+        prefImage = prefs.getString("pref_image", "none");
+
+        if (prefImage.equals("random"))
+            new DisplayRandomImage().execute();
+        else if (prefImage.equals("box")) {
 
             File internal = context.getDir("Homescreen", Context.MODE_PRIVATE);
             if (!internal.exists())
@@ -104,49 +123,59 @@ public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle save
 
                 randomImage.setImageBitmap(image);
 
-            }else{
+            } else {
                 new DisplayRandomImage().execute();
             }
 
         }
 
     }
-    public void onStop()
-    {
+
+    public void onStop() {
 
         super.onStop();
 
-        if(DataGrabber.running)
-            DataGrabber.stop = true;
+        if (MonsterGrabber.running)
+            MonsterGrabber.stop = true;
 
         setLoading(false);
 
     }
 
 
-    public void displayRandomImage(View view){
+    /*
+    *
+    * This method grabs a random image for display!
+    *
+    * */
+    public void displayRandomImage(View view) {
 
-        String prefOnTap = prefs.getString("pref_imageOnTap","none");
-        if(prefOnTap.equals("none"))
-            PreferenceManager.setDefaultValues(context,R.xml.preferences,true);
-        prefOnTap = prefs.getString("pref_imageOnTap","none");
+        String prefOnTap = prefs.getString("pref_imageOnTap", "none");
+        if (prefOnTap.equals("none"))
+            PreferenceManager.setDefaultValues(context, R.xml.preferences, true);
+        prefOnTap = prefs.getString("pref_imageOnTap", "none");
 
-      if(prefOnTap.equals("random")){
-        if(!running){
-        randomStart = 0;
-        Home.randomImage = null;
-            TranslateAnimation anim = new TranslateAnimation(0,image.getX()-2000,0,0);
-            anim.setDuration(500);
-            anim.setFillAfter(true);
-        image.startAnimation(anim);
-        running = true;
-        new DisplayRandomImage().execute();
+        if (prefOnTap.equals("random")) {
+            if (!running) {
+                randomStart = 0;
+                HomeActivity.randomImage = null;
+                TranslateAnimation anim = new TranslateAnimation(0, image.getX() - 2000, 0, 0);
+                anim.setDuration(500);
+                anim.setFillAfter(true);
+                image.startAnimation(anim);
+                running = true;
+                new DisplayRandomImage().execute();
+            }
         }
-      }
 
     }
-
-    public class DisplayRandomImage extends AsyncTask<Void,Void,Void>{
+/*
+*
+* This AsyncTask downloads the random image
+* and sets its animations sliding right to left.
+*
+* */
+    public class DisplayRandomImage extends AsyncTask<Void, Void, Void> {
         boolean cancelled;
 
 
@@ -157,62 +186,64 @@ public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle save
             if (randomStart == 0)
                 randomStart = (int) (Math.random() * 1060) + 1;
 
-            if(Home.randomImage == null){
-            try {
-                URL imgURL = new URL("http://www.monsterstrikedatabase.com/monsters/big/" + randomStart + ".png");
+            if (HomeActivity.randomImage == null) {
+                try {
+                    URL imgURL = new URL("http://www.monsterstrikedatabase.com/monsters/big/" + randomStart + ".png");
 
-                HttpURLConnection connection = (HttpURLConnection) imgURL.openConnection();
-                connection.setDoInput(true);
-                connection.connect();
-                InputStream randomStream = connection.getInputStream();
+                    HttpURLConnection connection = (HttpURLConnection) imgURL.openConnection();
+                    connection.setDoInput(true);
+                    connection.connect();
+                    InputStream randomStream = connection.getInputStream();
 
-               Bitmap random = BitmapFactory.decodeStream(randomStream);
+                    Bitmap random = BitmapFactory.decodeStream(randomStream);
 
-                File temp = context.getDir("temp",Context.MODE_PRIVATE);
-                File image = new File(temp,"randomImage.png");
-                FileOutputStream out = new FileOutputStream(image);
+                    File temp = context.getDir("temp", Context.MODE_PRIVATE);
+                    if (!temp.exists())
+                        temp.mkdirs();
+                    File image = new File(temp, "randomImage.png");
+                    FileOutputStream out = new FileOutputStream(image);
 
-                random.compress(Bitmap.CompressFormat.PNG,100,out);
+                    random.compress(Bitmap.CompressFormat.PNG, 100, out);
 
-                Home.randomImage = image.getPath();
+                    HomeActivity.randomImage = image.getPath();
 
-            }catch (FileNotFoundException f){
-                f.printStackTrace();
-                randomStart = 0;
-                new DisplayRandomImage().execute();
+                } catch (FileNotFoundException f) {
+                    f.printStackTrace();
+                    randomStart = 0;
+                    new DisplayRandomImage().execute();
 
-            }catch (Exception ignore) {
-                ignore.printStackTrace();
-                cancelled = true;
-                Log.i("Search Activity","Image failed to download.");
+                } catch (Exception ignore) {
+                    ignore.printStackTrace();
+                    cancelled = true;
+                    Log.i("Search Activity", "Image failed to download.");
 
-            }}
+                }
+            }
 
 
             return null;
         }
 
         @Override
-        protected void onPostExecute(Void result){
-            if(cancelled){
+        protected void onPostExecute(Void result) {
+            if (cancelled) {
 
 
+                Toast.makeText(context.getApplicationContext(), "Network Error\nImage failed to download.", Toast.LENGTH_SHORT).show();
 
-                Toast.makeText(context.getApplicationContext(),"Network Error\nImage failed to download.",Toast.LENGTH_SHORT).show();
+            } else {
 
-            }else{
+                if (HomeActivity.randomImage != null) {
 
-                if(Home.randomImage != null){
+                    if (new File(HomeActivity.randomImage).exists()) {
 
-                    if(new File(Home.randomImage).exists()){
-
-                       TranslateAnimation anim = new TranslateAnimation(image.getX()+2000,0,0,0);
+                        TranslateAnimation anim = new TranslateAnimation(image.getX() + 2000, 0, 0, 0);
                         anim.setDuration(500);
                         anim.setFillAfter(true);
 
-                        image.setImageBitmap(BitmapFactory.decodeFile(Home.randomImage));
+                        image.setImageBitmap(BitmapFactory.decodeFile(HomeActivity.randomImage));
                         image.startAnimation(anim);
-                    }else{
+                    } else {
 
                         displayRandomImage(new View(context));
 
@@ -227,18 +258,24 @@ public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle save
         }
     }
 
-
-    private class DataCheck extends AsyncTask<Void,Void,Void> {
+    /*
+       *
+       * This AsyncTask searches the strikeshot.net
+       * for any matched and either displays the Monster,
+       * or lists the found results.
+       *
+       * */
+    private class DataCheck extends AsyncTask<Void, Void, Void> {
         Context context;
         String monsterNum;
-        boolean error,cancelled;
+        boolean error, cancelled;
         int matches;
 
 
-        public DataCheck(String n,Context c){
+        public DataCheck(String n, Context c) {
             this.monsterNum = n;
             this.context = c;
-            error =  false;
+            error = false;
             cancelled = false;
 
         }
@@ -250,11 +287,11 @@ public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle save
 
             boolean isNum = false;
             int checker = 0;
-            for(int n = 0;n<monsterNum.length();n++)
-                if(monsterNum.charAt(n) >= '0' && monsterNum.charAt(n) <= '9')
+            for (int n = 0; n < monsterNum.length(); n++)
+                if (monsterNum.charAt(n) >= '0' && monsterNum.charAt(n) <= '9')
                     checker++;
-            if(checker == monsterNum.length())
-                isNum =true;
+            if (checker == monsterNum.length())
+                isNum = true;
 
             ArrayList<String> htmlLines = new ArrayList<>();
 
@@ -262,18 +299,17 @@ public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle save
             try {
 
 
+                if (isNum) {
+                    Log.i("DataCheck", "searching for monster with number " + monsterNum);
 
+                    htmlLines.add("/monster/" + monsterNum);
 
-                if(isNum){
-                    Log.i("DataCheck","searching for monster with number " + monsterNum);
-
-                            htmlLines.add("/monster/"+ monsterNum);
-
-                }else {
+                } else {
 
                     monsterNum = addPlus(monsterNum);
 
-
+                    //this connections is the main search page that
+                    // sifts through all results.
                     URL url = new URL("http://www.strikeshot.net/search-page?search=" + monsterNum);
                     HttpURLConnection connect2 = (HttpURLConnection) url.openConnection();
                     connect2.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1500.29 Safari/537.36");
@@ -284,7 +320,7 @@ public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle save
                     String inputLine;
 
 
-                    Log.i("DataCheck","searching for all possible matches of " + monsterNum);
+                    Log.i("DataCheck", "searching for all possible matches of " + monsterNum);
                     while ((inputLine = htmlStream.readLine()) != null)
                         if (inputLine.contains("nothing-1") && inputLine.contains("#") && inputLine.contains("search-page-header") && inputLine.contains("monster/"))
                             htmlLines.add(inputLine);
@@ -295,31 +331,29 @@ public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle save
                 matches = htmlLines.size();
 
 
-
                 if (!htmlLines.isEmpty()) {
 
-                    //send first monster found
-                    Log.i("Datacheck","results found " + htmlLines.size() + " " + htmlLines);
 
-                    if(htmlLines.size() == 1){
+                    Log.i("Datacheck", "results found " + htmlLines.size() + " " + htmlLines);
+
+                    if (htmlLines.size() == 1) {//launch MonsterPageActivity if only one result is found.
 
                         Log.i("DataCheck", "gathering monster data");
 
-                        new DataGrabber(getMonUrl(htmlLines.get(0)),context,getActivity()).execute();
+                        new MonsterGrabber(getMonUrl(htmlLines.get(0)), context, getActivity()).execute();
 
-                    }else{
+                    } else {//creates a results fragments if more than one result is found.
 
-                        Log.i("DataCheck","creating results page intent");
+                        Log.i("DataCheck", "creating results page intent");
 
 
-                        resultsFragment  = new ResultsFragment();
+                        resultsFragment = new ResultsFragment();
                         Bundle bundle = new Bundle();
-                        bundle.putStringArrayList("monsters",htmlLines);
+                        bundle.putStringArrayList("monsters", htmlLines);
                         resultsFragment.setArguments(bundle);
 
 
-                        resultsFragment.show(getFragmentManager(),"Results");
-
+                        resultsFragment.show(getFragmentManager(), "Results");
 
 
                         Log.i("DataCheck", "added found monsters");
@@ -329,15 +363,15 @@ public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle save
 
 
                 } else {
-                    Log.i("Datacheck","No results found");
+                    Log.i("Datacheck", "No results found");
                     //no results
                     error = true;
 
                 }
-            }catch(Exception ignored){
+            } catch (Exception ignored) {
 
-              ignored.printStackTrace();
-                cancelled  = true;
+                ignored.printStackTrace();
+                cancelled = true;
 
 
             }
@@ -345,47 +379,52 @@ public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle save
             return null;
         }
 
-        protected void onPostExecute(Void result){
+        protected void onPostExecute(Void result) {
             super.onPostExecute(result);
 
 
-            if(error){
+            if (error) {
                 error();
-            return;
+                return;
             }
-            if(cancelled){
+            if (cancelled) {
                 Toast.makeText(context.getApplicationContext(), "Network Error\nMonster failed to donwnload", Toast.LENGTH_SHORT).show();
                 setLoading(false);
                 return;
             }
 
 
-             String foundMessage;
+            String foundMessage;
 
-            if(matches > 1)
+            if (matches > 1)
                 foundMessage = "Found " + matches + " Matches";
             else
                 foundMessage = "Found 1 Match";
 
 
-            Toast.makeText(context.getApplicationContext(),foundMessage,Toast.LENGTH_SHORT).show();
+            Toast.makeText(context.getApplicationContext(), foundMessage, Toast.LENGTH_SHORT).show();
 
 
         }
 
-        public String addPlus(String monsterNum){
+        /*
+        *
+        * This method replaces all spaces with a "+" in a string.
+        *
+        * */
+        public String addPlus(String monsterNum) {
 
-            if(monsterNum.trim().contains(" ")){
+            if (monsterNum.trim().contains(" ")) {
 
                 String temp = monsterNum;
                 monsterNum = "";
 
-                for(int c = 0;c<temp.length();c++){
+                for (int c = 0; c < temp.length(); c++) {
 
-                    if(temp.charAt(c) == ' ')
-                        monsterNum+= "+";
+                    if (temp.charAt(c) == ' ')
+                        monsterNum += "+";
                     else
-                        monsterNum+= temp.charAt(c);
+                        monsterNum += temp.charAt(c);
 
 
                 }
@@ -394,13 +433,13 @@ public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle save
             return monsterNum;
         }
 
-        public String getMonUrl(String url){
+        public String getMonUrl(String url) {
             String ans = "";
-            if(url.contains("monster/")){
+            if (url.contains("monster/")) {
                 String temp1 = url.substring(url.indexOf("monster/"));
-                for(int c  = 0;c<temp1.length();c++)
-                    if(temp1.charAt(c)!= '"')
-                        ans+=temp1.charAt(c);
+                for (int c = 0; c < temp1.length(); c++)
+                    if (temp1.charAt(c) != '"')
+                        ans += temp1.charAt(c);
                     else
                         break;
 
@@ -412,47 +451,58 @@ public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle save
 
     }
 
-
-    public void error(){
+   /*
+   *
+   * This is the default error method when no monster is found.
+   *
+   * */
+    public void error() {
 
 
         AlertDialog.Builder error = new AlertDialog.Builder(context);
         error.setTitle("Monster Not Found");
         error.setMessage("Please try another name or number.");
-        error.setPositiveButton("OK",null);
+        error.setPositiveButton("OK", null);
         setLoading(false);
         error.show();
 
 
     }
 
-    public boolean invalid(String potential){
-        if(potential.equals(""))
+    /*
+    *
+    * This method is used to check is the Text entered into
+    * the search is invalid even before it connects to the
+    * internet.
+    *
+    * */
+
+    public boolean invalid(String potential) {
+        if (potential.equals(""))
             return true;
 
         int count = 0;
-        for(int a = 0;a<potential.length();a++) {
+        for (int a = 0; a < potential.length(); a++) {
             if (potential.charAt(a) >= '0' && potential.charAt(a) <= '9')
                 count++;
         }
 
-        if(potential.length() == count) {
+        if (potential.length() == count) {
 
             long number = Integer.parseInt(potential);
 
-            if(number > 9999)
+            if (number > 9999)
                 return true;
 
-            if (number == 0 || number > 1438)
+            if (number == 0 || number > 1535)
                 return true;
 
-        }else{
+        } else {
 
-           if(potential.length() <= 2)
+            if (potential.length() <= 2)
                 return true;
 
         }
-
 
 
         return false;
@@ -460,37 +510,49 @@ public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle save
     }
 
 
-    public void setLoading(boolean isLoading){
+    /*
+    *
+    * This method makes the loading ProgressBars
+    * visible or invisible.
+    *
+    * */
+    public void setLoading(boolean isLoading) {
         ProgressBar bar;
 
 
-        if(isLoading){
-            bar  = (ProgressBar)view.findViewById(R.id.monsterLoading);
+        if (isLoading) {
+            bar = (ProgressBar) view.findViewById(R.id.monsterLoading);
             bar.setVisibility(View.VISIBLE);
 
-        }else{
+        } else {
 
-            EditText text = (EditText)view.findViewById(R.id.monsterText);
+            EditText text = (EditText) view.findViewById(R.id.monsterText);
             text.setText("");
-            bar  = (ProgressBar)view.findViewById(R.id.monsterLoading);
+            bar = (ProgressBar) view.findViewById(R.id.monsterLoading);
             bar.setVisibility(View.INVISIBLE);
         }
 
     }
 
-    public void showResults(View v){
-       if(!DataGrabber.running) {
-    EditText text = (EditText) view.findViewById(R.id.monsterText);
-    String num = text.getText().toString();
-    Log.i("Search Fragment", "found " + num);
-    if (invalid(num)) {
+    /*
+    *
+    * This is the connected method connected to
+    * the Main search button on the SearchFragment.
+    *
+    * */
+    public void showResults(View v) {
+        if (!MonsterGrabber.running) {
+            EditText text = (EditText) view.findViewById(R.id.monsterText);
+            String num = text.getText().toString();
+            Log.i("Search Fragment", "found " + num);
+            if (invalid(num)) {
 
-        error();
-    } else {
-        setLoading(true);
-        new DataCheck(num, context).execute();
-    }
-}
+                error();
+            } else {
+                setLoading(true);
+                new DataCheck(num, context).execute();
+            }
+        }
     }
 
 

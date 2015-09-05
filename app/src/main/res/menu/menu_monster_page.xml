@@ -1,12 +1,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.loera.monstersearch.MonsterPage">
+    tools:context="com.loera.monstersearch.MonsterPageActivity">
 
 
     <item
         android:id="@+id/actionSearch"
-        android:icon="@drawable/search_white"
+        android:icon="@drawable/ic_magnify"
         app:showAsAction="ifRoom"
         app:actionViewClass="android.widget.SearchView"
         android:menuCategory="container"
@@ -18,11 +18,11 @@
     <item
 
         android:id="@+id/materialsButton"
-        android:icon="@drawable/mat_button"
+        android:icon="@drawable/ic_information"
         app:showAsAction="ifRoom"
         android:menuCategory="container"
         android:orderInCategory="2"
-        android:title="Materials"
+        android:title="More Info"
 
 
 
@@ -31,7 +31,7 @@
     <item
         android:id="@+id/favoriteButton"
         android:title="Favorite"
-        android:icon="@drawable/heart_outline"
+        android:icon="@drawable/ic_heart_outline"
         app:showAsAction="ifRoom"
 
 

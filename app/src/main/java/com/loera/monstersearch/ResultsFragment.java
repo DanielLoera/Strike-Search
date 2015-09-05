@@ -30,10 +30,13 @@ import java.net.URL;
 import java.util.ArrayList;
 
 /**
- * Created by Daniel on 7/10/2015.
- *
- * :)
- */
+*
+*
+* This DialogFragment displays all found Monster's
+* that matched your search.
+*
+*
+* */
 public class ResultsFragment extends DialogFragment {
     ArrayList<String> monsters;
     ArrayList<Monster> monData;
@@ -83,7 +86,7 @@ public interface DialogListener{
 
         page = new DisplayResultsPage();
 
-        if(Home.screenSize == Configuration.SCREENLAYOUT_SIZE_LARGE){
+        if(HomeActivity.screenSize == Configuration.SCREENLAYOUT_SIZE_LARGE){
             Log.i("Results","Large Screen Detected");
             int width = (int)getResources().getDimension(R.dimen.popupWidthLarge);
             int height = (int)getResources().getDimension(R.dimen.popupHeightLarge);
@@ -119,6 +122,13 @@ public interface DialogListener{
 
     }
 
+
+    /*
+    *
+    * This method deletes any images that the dialog has saved.
+    * Use with caution.
+    *
+    * */
     public void removeImages(){
 
         for(Monster m:monData){
@@ -133,12 +143,12 @@ public interface DialogListener{
 
     }
 
-
-
-
-
-
-
+    /*
+    *
+    * This AsyncTask downloads any necessary thumbnails
+    * and creates the views for the ResultsFragment.
+    *
+    * */
 
     private class DisplayResultsPage extends AsyncTask<Void,Void,Void>{
 
@@ -160,6 +170,8 @@ public interface DialogListener{
 
             }
 
+            //this for loop scans through every Monster to create its
+            //view with its thumbanail
 
             for(int count  = 0;count<monsters.size();count++ ){
 
@@ -177,7 +189,7 @@ public interface DialogListener{
 
                     if(Integer.parseInt(monster.num) > 999){
 
-                        thumbnail = "http://strikeshot.net/sites/default/files/styles/thumbnail/public/"+monster.num+".jpg?itok=ccRWLEqa";
+                        thumbnail = "http://strikeshot.net/sites/default/files/styles/thumbnail/public/"+monster.num+".jpg";
 
                     }else{
 
@@ -187,6 +199,9 @@ public interface DialogListener{
 
                     if(!temp.exists())
                         temp.mkdir();
+
+                    //this connection downloads the thumbnail
+                    // and stores it into temp.
 
                     URL url3 = new URL(thumbnail);
                     HttpURLConnection connection3 = (HttpURLConnection) url3.openConnection();
@@ -212,16 +227,10 @@ public interface DialogListener{
                     if(monster.name == null)
                         cancelled = true;
 
-
                 }
 
-
-
                 monData.add(monster);
-
-
-
-            }
+               }
 
 
 
@@ -231,7 +240,9 @@ public interface DialogListener{
         }
 
         protected void onPostExecute(Void result){
-
+            //This is where the TextView is created and
+            //dynamically scaled base on screen size and
+            // resolution.
             super.onPostExecute(result);
 
             if(!stop)
@@ -256,7 +267,7 @@ public interface DialogListener{
                         Bitmap thumbnail = BitmapFactory.decodeFile(curMon.thumb);
                         Drawable draw = new BitmapDrawable(context.getResources(), thumbnail);
 
-                        switch (Home.screenSize){
+                        switch (HomeActivity.screenSize){
 
                             case Configuration.SCREENLAYOUT_SIZE_LARGE:
 
@@ -315,7 +326,7 @@ public interface DialogListener{
 
                         selected = true;
 
-                        new DataGrabber(getMonUrl(monsters.get(v.getId())), context,getActivity()).execute();
+                        new MonsterGrabber(getMonUrl(monsters.get(v.getId())), context,getActivity()).execute();
 
                         dismiss();
                        }
@@ -366,7 +377,7 @@ public interface DialogListener{
             for(int c = 0;c<url.length();c++){
                 if(url.charAt(c) >= '0' && url.charAt(c) <= '9'){
                     temp+= url.charAt(c);
-                if(Integer.parseInt(temp) < 1438)
+                if(Integer.parseInt(temp) <= 1535)
                     real = temp;
 
                 }
@@ -400,7 +411,12 @@ public interface DialogListener{
 
     }
 
-
+/*
+*
+* This method sets the ProgressBar visible
+* or invisible.
+*
+* */
 public void setLoading(boolean isLoading) {
 
     ProgressBar bar = (ProgressBar) view.findViewById(R.id.progressBarResults);

@@ -3,41 +3,51 @@ package com.loera.monstersearch;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+/**
+*
+*
+* This class is the Monster Model.
+* this parcelable object lists all the variables a Monster
+* could possibly have and change.
+*
+*
+* */
+
 public class Monster implements Parcelable {
 
     public String num;
-    public String  name;
+    public String name;
     public String monClass;
-    public String  type;
-    public String  obtain;
-    public String  maxLuck;
-    public String  ability;
-    public String  impact;
-    public String  maxLevel;
-    public String  maxHealth;
-    public String  maxAttack;
-    public String  maxSpeed;
+    public String type;
+    public String obtain;
+    public String maxLuck;
+    public String ability;
+    public String impact;
+    public String maxLevel;
+    public String maxHealth;
+    public String maxAttack;
+    public String maxSpeed;
     public String plusHealth;
-    public String  plusAttack;
-    public String  plusSpeed;
-    public String  strikeName;
-    public String  strikeInfo;
-    public String  cooldown;
-    public String  bcName;
-    public String  bcPower;
-    public String  bcInfo;
+    public String plusAttack;
+    public String plusSpeed;
+    public String strikeName;
+    public String strikeInfo;
+    public String cooldown;
+    public String bcName;
+    public String bcPower;
+    public String bcInfo;
     public String link;
     public String ascLinks;
     public String bitmap;
     public String thumb;
     public String evoMat;
     public String ascMat;
+    public String event;
 
     public boolean favorited;
 
 
-    public Monster(){
-
+    public Monster() {
 
 
     }
@@ -71,6 +81,7 @@ public class Monster implements Parcelable {
         thumb = in.readString();
         evoMat = in.readString();
         ascMat = in.readString();
+        event = in.readString();
         favorited = in.readByte() != 0x00;
 
     }
@@ -111,6 +122,7 @@ public class Monster implements Parcelable {
         dest.writeString(thumb);
         dest.writeString(evoMat);
         dest.writeString(ascMat);
+        dest.writeString(event);
         dest.writeByte((byte) (favorited ? 0x01 : 0x00));
 
     }
